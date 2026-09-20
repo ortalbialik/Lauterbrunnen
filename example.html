@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Lauterbrunnen — Travel Plan</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --red: #ef4444;
+  --red-light: #fee2e2;
+  --red-dark: #991b1b;
+  --orange: #f97316;
+  --orange-light: #fef3c7;
+  --orange-dark: #92400e;
+  --green: #22c55e;
+  --green-light: #dcfce7;
+  --green-dark: #166534;
+  --blue: #3b82f6;
+  --blue-light: #dbeafe;
+  --blue-dark: #1e40af;
+  --purple: #8b5cf6;
+  --purple-light: #ede9fe;
+  --dark: #0f172a;
+  --text: #1e293b;
+  --muted: #94a3b8;
+  --border: #e2e8f0;
+  --light-bg: #f8fafc;
+  --card-bg: #ffffff;
+  --radius: 12px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--light-bg);
+  color: var(--text);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 20px 32px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  width: 100%;
+  background: var(--dark);
+  padding: 0;
+  margin-bottom: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.app-header .accent-bar {
+  height: 3px;
+  background: linear-gradient(90deg, var(--red), var(--orange), var(--blue), var(--purple));
+}
+.app-header .header-content {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.app-header .logo {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.3px;
+  background: none;
+  border: none;
+  font-family: var(--font);
+  cursor: pointer;
+}
+.app-header .logo span { color: var(--red); }
+
+.nav-pill {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.7);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font);
+}
+.nav-pill:hover, .nav-pill.active {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+}
+
+.screen { display: none; flex-direction: column; flex: 1; }
+.screen.active { display: flex; }
+.screen.active:not(#screen-home) { padding-top: 8px; }
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp 0.5s ease forwards;
+}
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--dark);
+  line-height: 1.2;
+}
+h2 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--dark);
+  margin-bottom: 8px;
+}
+h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 6px;
+}
+.overline {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.subtitle {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15,23,42,0.15) 0%, rgba(15,23,42,0.72) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  color: #fff;
+}
+.cover-overlay .overline { color: rgba(255,255,255,0.75); }
+.cover-overlay h1 {
+  color: #fff;
+  font-size: 28px;
+  margin-bottom: 4px;
+}
+.cover-overlay p {
+  color: rgba(255,255,255,0.85);
+  font-size: 14px;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.card:hover { box-shadow: var(--shadow-md); }
+.card-lift { cursor: pointer; text-align: left; width: 100%; font-family: var(--font); color: inherit; }
+.card-lift:hover { transform: translateY(-2px); }
+
+.day-card {
+  display: flex;
+  gap: 14px;
+  padding: 14px;
+  margin-bottom: 10px;
+  align-items: stretch;
+}
+.day-card-thumb {
+  width: 88px;
+  min-height: 88px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--light-bg);
+  border: 1px solid var(--border);
+}
+.day-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.day-card-body { flex: 1; min-width: 0; }
+.day-card-kicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 2px;
+}
+.day-card h3 { margin-bottom: 4px; }
+.day-card p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.day-card-arrow {
+  align-self: center;
+  color: var(--muted);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 500;
+  font-family: var(--font);
+  cursor: pointer;
+  text-align: left;
+  margin-bottom: 10px;
+  transition: all 0.15s ease;
+  box-shadow: var(--shadow-sm);
+}
+.btn:active { transform: scale(0.98); }
+.btn-primary {
+  background: var(--dark);
+  color: #fff;
+  border-color: var(--dark);
+  text-align: center;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+}
+.btn-primary:hover { background: #1e293b; }
+.btn-outline {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text);
+  text-align: center;
+  font-weight: 500;
+}
+.btn-outline:hover { border-color: var(--muted); background: var(--light-bg); }
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 16px 0 12px;
+  background: none;
+  border: none;
+  font-family: var(--font);
+  padding: 0;
+}
+.back-link:hover { color: var(--text); }
+
+.hero-day {
+  margin-bottom: 18px;
+}
+.hero-day img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 14px;
+  display: block;
+}
+
+.note {
+  background: var(--light-bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--purple);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 14px 16px;
+  margin: 8px 0 18px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.note strong { color: var(--dark); }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 18px;
+}
+.chip {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--blue-dark);
+  background: var(--blue-light);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+.timeline { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+.slot {
+  padding: 14px 16px;
+}
+.slot-time {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 4px;
+}
+.slot p { font-size: 14px; color: var(--text); line-height: 1.6; }
+.slot ul {
+  margin: 8px 0 0 18px;
+  font-size: 14px;
+  color: var(--text);
+}
+.slot li { margin-bottom: 4px; }
+
+.tip {
+  background: var(--orange-light);
+  border: 1px solid #fde68a;
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--orange-dark);
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+
+.section-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 8px 0 10px;
+}
+
+@media (max-width: 400px) {
+  .container { padding: 0 14px 24px; }
+  h1 { font-size: 26px; }
+  .cover { height: 240px; }
+  .day-card-thumb { width: 72px; min-height: 72px; }
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="accent-bar"></div>
+  <div class="header-content">
+    <button class="logo" onclick="showScreen('home')">Lauter<span>brunnen</span></button>
+    <button class="nav-pill" id="nav-home" onclick="showScreen('home')">Days</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- HOME -->
+  <div id="screen-home" class="screen active">
+    <div class="cover fade-in">
+      <img
+        src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?auto=format&fit=crop&w=1600&q=80"
+        alt="Lauterbrunnen valley with Staubbach Falls"
+      >
+      <div class="cover-overlay">
+        <div class="overline">Jungfrau region · Switzerland</div>
+        <h1>Valley of 72 waterfalls</h1>
+        <p>A stay-based plan from the village floor to cliff towns and glacier peaks.</p>
+      </div>
+    </div>
+
+    <p class="subtitle" style="margin-bottom:16px">
+      Base in Lauterbrunnen. Pick a day card for the full rhythm — morning, afternoon, dinner, and how to move.
+    </p>
+
+    <div class="note">
+      <strong>Weather rule:</strong> If the summits are clear, do Schilthorn or Kleine Scheidegg first. Save indoor Trümmelbach Falls for a cloudy or rainy stretch.
+    </div>
+
+    <p class="section-label">Day plans</p>
+
+    <button class="card card-lift day-card" onclick="showScreen('day-waterfalls')">
+      <div class="day-card-thumb">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=600&q=80" alt="">
+      </div>
+      <div class="day-card-body">
+        <div class="day-card-kicker">Day one</div>
+        <h3>Valley of waterfalls</h3>
+        <p>Staubbach Falls, the village church viewpoint, and an easy walk along the valley floor.</p>
+      </div>
+      <span class="day-card-arrow">›</span>
+    </button>
+
+    <button class="card card-lift day-card" onclick="showScreen('day-trummelbach')">
+      <div class="day-card-thumb">
+        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80" alt="">
+      </div>
+      <div class="day-card-body">
+        <div class="day-card-kicker">Day two</div>
+        <h3>Inside the mountain</h3>
+        <p>Trümmelbach’s ten glacier falls, then a valley walk or bus to Stechelberg and Gimmelwald.</p>
+      </div>
+      <span class="day-card-arrow">›</span>
+    </button>
+
+    <button class="card card-lift day-card" onclick="showScreen('day-murren')">
+      <div class="day-card-thumb">
+        <img src="https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=600&q=80" alt="">
+      </div>
+      <div class="day-card-body">
+        <div class="day-card-kicker">Day three</div>
+        <h3>Mürren &amp; Schilthorn</h3>
+        <p>Car-free cliff village, James Bond summit if the sky is open, loop home via Grütschalp.</p>
+      </div>
+      <span class="day-card-arrow">›</span>
+    </button>
+
+    <button class="card card-lift day-card" onclick="showScreen('day-wengen')">
+      <div class="day-card-thumb">
+        <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=600&q=80" alt="">
+      </div>
+      <div class="day-card-body">
+        <div class="day-card-kicker">Day four</div>
+        <h3>Wengen panorama</h3>
+        <p>Sunny-side village, Männlichen cable car, and the easy ridge walk toward Kleine Scheidegg.</p>
+      </div>
+      <span class="day-card-arrow">›</span>
+    </button>
+
+    <button class="card card-lift day-card" onclick="showScreen('day-eiger')">
+      <div class="day-card-thumb">
+        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80" alt="">
+      </div>
+      <div class="day-card-body">
+        <div class="day-card-kicker">Day five</div>
+        <h3>Eiger &amp; Kleine Scheidegg</h3>
+        <p>North-face views from the pass. Jungfraujoch only if you want the glacier-top splurge.</p>
+      </div>
+      <span class="day-card-arrow">›</span>
+    </button>
+  </div>
+
+  <!-- DAY 1 -->
+  <div id="screen-day-waterfalls" class="screen">
+    <button class="back-link" onclick="showScreen('home')">← Days</button>
+    <div class="hero-day fade-in">
+      <img src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?auto=format&fit=crop&w=1400&q=80" alt="Staubbach Falls above Lauterbrunnen">
+      <div class="overline">Day one</div>
+      <h2>Valley of waterfalls</h2>
+      <p class="subtitle">Settle into the village and let the cliffs do the work. Short walks, big views, early dinner.</p>
+    </div>
+    <div class="chips">
+      <span class="chip">Easy</span>
+      <span class="chip">Village</span>
+      <span class="chip">~4 hours out</span>
+    </div>
+    <div class="timeline">
+      <div class="card slot">
+        <div class="slot-time">Morning</div>
+        <h3>Arrive &amp; drop bags</h3>
+        <p>Train to Lauterbrunnen (via Interlaken Ost). Hotel or apartment is usually a short walk from the station. Grab a map at the tourist office on the main street.</p>
+      </div>
+      <div class="card slot">
+        <div class="slot-time">Late morning</div>
+        <h3>Staubbach Falls</h3>
+        <ul>
+          <li>Walk south through the village to the base of Staubbach — the 297 m ribbon that makes the valley famous.</li>
+          <li>If the path is open (typically late spring–autumn), climb the short tunnel trail behind the spray for the lookout.</li>
+          <li>Church of St. Mary and the cemetery above town: classic valley photo with the falls behind the spire.</li>
+        </ul>
+      </div>
+      <div class="card slot">
+        <div class="slot-time">Afternoon</div>
+        <h3>Valley floor wander</h3>
+        <p>Follow the river path toward the campsite and Weisse Lütschine. Optional short hop on bus 141 if legs are tired. Coffee and a pastry in the village (Airtime Café is a reliable stop).</p>
+      </div>
+      <div class="card slot">
+        <div class="slot-time">Evening</div>
+        <h3>Dinner in the valley</h3>
+        <p>Hotel restaurant or Horner Pub for a casual plate. Watch the cliffs pick up last light — waterfalls glow after rain.</p>
+      </div>
+    </div>
+    <div class="tip">Pack a light rain shell even on a blue-sky day. Spray from Staubbach and sudden valley showers are normal.</div>
+    <button class="btn btn-primary" onclick="showScreen('day-trummelbach')">Next: Inside the mountain</button>
+    <button class="btn btn-outline" onclick="showScreen('home')">Back to days</button>
+  </div>
+
+  <!-- DAY 2 -->
+  <div id="screen-day-trummelbach" class="screen">
+    <button class="back-link" onclick="showScreen('home')">← Days</button>
+    <div class="hero-day fade-in">
+      <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=80" alt="Alpine cliffs and glacier water">
+      <div class="overline">Day two</div>
+      <h2>Inside the mountain</h2>
+      <p class="subtitle">Europe’s only glacier waterfalls you walk inside — then the quiet south end of the valley.</p>
+    </div>
+    <div class="chips">
+      <span class="chip">Indoor falls</span>
+      <span class="chip">Wet stairs</span>
+      <span class="chip">Good in rain</span>
+    </div>
+    <div class="timeline">
+      <div class="card slot">
+        <div class="slot-time">Morning</div>
+        <h3>Trümmelbach Falls</h3>
+        <ul>
+          <li>Bus 141 from Lauterbrunnen station (~15 min) or walk the valley path (~45–60 min).</li>
+          <li>Ten falls drain the Eiger, Mönch and Jungfrau glaciers — lift + tunnels + metal walkways.</li>
+          <li>Allow about an hour inside. Closed in winter; typically open April–November.</li>
+        </ul>
+      </div>
+      <div class="card slot">
+        <div class="slot-time">Lunch</div>
+        <h3>Falls café or picnic</h3>
+        <p>Eat at the Trümmelbach restaurant, or continue south with snacks. Waterproof jacket and grippy shoes — it is loud, dark, and slippery.</p>
+      </div>
+      <div class="card slot">
+        <div class="slot-time">Afternoon</div>
+        <h3>Stechelberg &amp; Gimmelwald</h3>
+        <p>Bus or walk to Stechelberg Schilthornbahn. Cable car up one stop to Gimmelwald — tiny car-free hamlet, benches, and cliff-edge views. Wander, then ride back down (or stay up if you want to preview Mürren).</p>
+      </div>
+      <div class="card slot">
+        <div class="slot-time">Evening</div>
+        <h3>Return to Lauterbrunnen</h3>
+        <p>Bus 141 from Stechelberg. Slow dinner; this day is wetter and louder than it looks on a map.</p>
+      </div>
+    </div>
+    <div class="tip">Skip combining this with Schilthorn. The falls deserve unhurried time, and summit weather is better as its own morning.</div>
+    <button class="btn btn-primary" onclick="showScreen('day-murren')">Next: Mürren &amp; Schilthorn</button>
+    <button class="btn btn-outline" onclick="showScreen('home')">Back to days</button>
+  </div>
+
+  <!-- DAY 3 -->
+  <div id="screen-day-murren" class="screen">
+    <button class="back-link" onclick="showScreen('home')">← Days</button>
+    <div class="hero-day fade-in">
+      <img src="https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?auto=format&fit=crop&w=1400&q=80" alt="High alpine ridge">
+      <div class="overline">Day three</div>
+      <h2>Mürren &amp; Schilthorn</h2>
+      <p class="subtitle">The west wall of the valley: car-free Mürren, then Piz Gloria if the peaks are out.</p>
+    </div>
+    <div class="chips">
+      <span class="chip">Clear-sky day</span>
+      <span class="chip">Cable cars</span>
+      <span class="chip">Full day</span>
+    </div>
+    <div class="note">
+      <strong>Go up early.</strong> Clouds often build after midday. Buy Schilthorn tickets the evening before only if the forecast is solid — no refund for fog.
+    </div>
+    <div class="timeline">
+      <div class="card slot">
+        <div class="slot-time">Morning — option A (clear)</div>
+        <h3>Schilthorn first</h3>
+        <p>Bus to Stechelberg → cable car via Gimmelwald and Mürren to Schilthorn (2,970 m). 360° Eiger–Mönch–Jungfrau views, Bond exhibit, rotating restaurant. Do not linger if queues are long — the view is the prize.</p>
+      </div>
+      <div class="card slot">
+        <div class="slot-time">Morning — option B (cloudy)</div>
+        <h3>Skip the summit</h3>
+        <p>Cable car Lauterbrunnen → Grütschalp, then the BLM train along the cliff to Mürren. Same village, none of the whiteout ticket cost.</p>
+      </div>
+      <div class="card slot">
+        <div class="slot-time">Afternoon</div>
+        <h3>Mürren village</h3>
+        <ul>
+          <li>Stroll the main lane: chalets, Allmendhubel funicular (optional flower/alpine garden views).</li>
+          <li>Lunch on a terrace facing the Jungfrau massif.</li>
+          <li>Easy cliff path toward Grütschalp (~1 hour) or ride the train + cable car down.</li>
+        </ul>
+      </div>
+      <div class="card slot">
+        <div class="slot-time">Evening</div>
+        <h3>Loop home</h3>
+        <p>Grütschalp cable car drops you almost on top of Lauterbrunnen station. Fondue or rösti back in the valley.</p>
+      </div>
+    </div>
+    <div class="tip">A Jungfrau Travel Pass or Swiss Travel Pass covers most valley lifts; Schilthorn is often a discount, not free. Check your pass before buying.</div>
+    <button class="btn btn-primary" onclick="showScreen('day-wengen')">Next: Wengen panorama</button>
+    <button class="btn btn-outline" onclick="showScreen('home')">Back to days</button>
+  </div>
+
+  <!-- DAY 4 -->
+  <div id="screen-day-wengen" class="screen">
+    <button class="back-link" onclick="showScreen('home')">← Days</button>
+    <div class="hero-day fade-in">
+      <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1400&q=80" alt="Lake and mountain travel landscape">
+      <div class="overline">Day four</div>
+      <h2>Wengen panorama</h2>
+      <p class="subtitle">The sunny terrace across the valley — gentler light, wide meadows, and a classic ridge walk.</p>
+    </div>
+    <div class="chips">
+      <span class="chip">Car-free</span>
+      <span class="chip">Ridge walk</span>
+      <span class="chip">Moderate</span>
+    </div>
+    <div class="timeline">
+      <div class="card slot">
+        <div class="slot-time">Morning</div>
+        <h3>Train to Wengen</h3>
+        <p>Cogwheel from Lauterbrunnen (about 15 min). No cars in the village. Coffee with Jungfrau staring straight at you, then wander the main street and church viewpoint.</p>
+      </div>
+      <div class="card slot">
+        <div class="slot-time">Midday</div>
+        <h3>Männlichen</h3>
+        <p>Cable car from Wengen up to Männlichen. The Royal Walk / Panorama Trail toward Kleine Scheidegg is the highlight: wide, well-marked, huge north-face views without technical hiking. ~1.5 hours at an easy pace.</p>
+      </div>
+      <div class="card slot">
+        <div class="slot-time">Afternoon</div>
+        <h3>Down via Wengen or Grindelwald</h3>
+        <p>Turn around to Wengen, or continue to Kleine Scheidegg and ride down the other side toward Grindelwald for a longer loop (train back via Interlaken or Zweilütschinen). Keep it simple if you want an early evening in the valley.</p>
+      </div>
+      <div class="card slot">
+        <div class="slot-time">Evening</div>
+        <h3>Sunset from Wengen or home</h3>
+        <p>Wengen catches later sun than the valley floor. Descend before the last train if you are not staying up there.</p>
+      </div>
+    </div>
+    <div class="tip">This walk is exposed. Windbreaker + sun protection. In winter the same ridge is ski terrain — check seasonal closures.</div>
+    <button class="btn btn-primary" onclick="showScreen('day-eiger')">Next: Eiger &amp; Kleine Scheidegg</button>
+    <button class="btn btn-outline" onclick="showScreen('home')">Back to days</button>
+  </div>
+
+  <!-- DAY 5 -->
+  <div id="screen-day-eiger" class="screen">
+    <button class="back-link" onclick="showScreen('home')">← Days</button>
+    <div class="hero-day fade-in">
+      <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1400&q=80" alt="Snow peaks under a night sky">
+      <div class="overline">Day five</div>
+      <h2>Eiger &amp; Kleine Scheidegg</h2>
+      <p class="subtitle">Stand under the north face. Treat Jungfraujoch as an optional extra, not the whole day.</p>
+    </div>
+    <div class="chips">
+      <span class="chip">High alpine</span>
+      <span class="chip">Optional splurge</span>
+      <span class="chip">Start early</span>
+    </div>
+    <div class="timeline">
+      <div class="card slot">
+        <div class="slot-time">Morning</div>
+        <h3>Train to Kleine Scheidegg</h3>
+        <p>Lauterbrunnen → Wengen → Kleine Scheidegg. Sit on the left going up for Eiger close-ups. Walk around the pass: restaurants, trailheads, and the wall filling the sky.</p>
+      </div>
+      <div class="card slot">
+        <div class="slot-time">Optional add-on</div>
+        <h3>Jungfraujoch — Top of Europe</h3>
+        <ul>
+          <li>Another cogwheel into the mountain to 3,454 m: glacier plateau, Sphinx terrace, ice palace.</li>
+          <li>Expensive and crowded. Worth it on a crystal day; skip it in cloud — you pay for a view you will not get.</li>
+          <li>Reserve a timed ticket in high season. Half-fare / Jungfrau Pass discounts matter here.</li>
+        </ul>
+      </div>
+      <div class="card slot">
+        <div class="slot-time">Afternoon without Jungfraujoch</div>
+        <h3>Eiger Trail (if snow-free)</h3>
+        <p>Kleine Scheidegg toward Alpiglen along the base of the north face — one of the best “I am actually here” walks in the region. Otherwise linger at the pass and ride down via Grindelwald for a different descent.</p>
+      </div>
+      <div class="card slot">
+        <div class="slot-time">Evening</div>
+        <h3>Back to the valley</h3>
+        <p>Last trains are earlier than city hours. Celebrate with something slow — you have covered both walls of the valley.</p>
+      </div>
+    </div>
+    <div class="tip">Altitude + sun is a real combo. Water, layers, and sunglasses even if it looks mild in Lauterbrunnen (800 m vs 2,000–3,400 m up top).</div>
+    <button class="btn btn-primary" onclick="showScreen('home')">Back to cover</button>
+  </div>
+
+</div>
+
+<script>
+function showScreen(id) {
+  var next = document.getElementById('screen-' + id) || document.getElementById(id);
+  if (!next) next = document.getElementById('screen-home');
+  document.querySelectorAll('.screen').forEach(function (el) {
+    var on = el === next;
+    el.classList.toggle('active', on);
+    el.toggleAttribute('hidden', !on);
+  });
+  window.scrollTo(0, 0);
+  document.getElementById('nav-home').classList.toggle('active', next.id === 'screen-home');
+}
+document.querySelectorAll('.screen').forEach(function (el) {
+  el.toggleAttribute('hidden', !el.classList.contains('active'));
+});
+document.getElementById('nav-home').classList.add('active');
+</script>
+</body>
+</html>

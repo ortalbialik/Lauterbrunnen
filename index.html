@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Lauterbrunnen — Travel Plan</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --red: #ef4444;
+  --red-light: #fee2e2;
+  --red-dark: #991b1b;
+  --orange: #f97316;
+  --orange-light: #fef3c7;
+  --orange-dark: #92400e;
+  --green: #22c55e;
+  --green-light: #dcfce7;
+  --green-dark: #166534;
+  --blue: #3b82f6;
+  --blue-light: #dbeafe;
+  --blue-dark: #1e40af;
+  --purple: #8b5cf6;
+  --purple-light: #ede9fe;
+  --dark: #0f172a;
+  --text: #1e293b;
+  --muted: #94a3b8;
+  --border: #e2e8f0;
+  --light-bg: #f8fafc;
+  --card-bg: #ffffff;
+  --radius: 12px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--light-bg);
+  color: var(--text);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 20px 32px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  width: 100%;
+  background: var(--dark);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.app-header .accent-bar {
+  height: 3px;
+  background: linear-gradient(90deg, var(--red), var(--orange), var(--blue), var(--purple));
+}
+.app-header .header-content {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.app-header .logo {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.3px;
+  background: none;
+  border: none;
+  font-family: var(--font);
+  cursor: pointer;
+}
+.app-header .logo span { color: var(--red); }
+
+.nav-pill {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.7);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font);
+}
+.nav-links { display: flex; gap: 6px; align-items: center; }
+
+.sync-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.7);
+  font-size: 12px;
+  font-weight: 600;
+}
+.sync-pill[hidden] { display: none; }
+.sync-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+}
+.sync-pill.is-saving .sync-dot { background: var(--orange); }
+.sync-pill.is-offline .sync-dot { background: var(--red); }
+
+[contenteditable] {
+  outline: none;
+  cursor: text;
+  min-width: 1em;
+}
+[contenteditable]:focus {
+  box-shadow: inset 0 0 0 2px rgba(59, 130, 246, 0.35);
+  border-radius: 6px;
+}
+[contenteditable]:empty::before {
+  content: attr(data-ph);
+  color: var(--muted);
+  font-style: italic;
+  pointer-events: none;
+}
+.cover-overlay [contenteditable]:empty::before {
+  color: rgba(255,255,255,0.55);
+}
+.day-card h3[contenteditable],
+.hero-day h2[contenteditable] {
+  color: var(--dark);
+  font-style: normal;
+}
+.day-card p[contenteditable]:not(:empty) { color: var(--muted); font-style: normal; }
+.subtitle[contenteditable]:not(:empty) { color: var(--text); font-style: normal; }
+.tip[contenteditable]:not(:empty) { color: var(--orange-dark); font-style: normal; }
+.chip[contenteditable] { min-width: 3.5em; min-height: 1.4em; }
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--dark);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-lg);
+  z-index: 200;
+  display: none;
+  max-width: 90vw;
+  text-align: center;
+}
+.toast.show { display: block; }
+
+.screen { display: none; flex-direction: column; flex: 1; }
+.screen.active { display: flex; }
+.screen.active:not(#screen-home) { padding-top: 8px; }
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp 0.5s ease forwards;
+}
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--dark);
+  line-height: 1.2;
+}
+h2 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--dark);
+  margin-bottom: 8px;
+}
+h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 6px;
+}
+.overline {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.subtitle {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Placeholder text — replace the content, then this styling stops applying */
+.ph { color: var(--muted); font-weight: 400; font-style: italic; }
+.ph-box {
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  color: var(--muted);
+  font-size: 13px;
+  font-style: italic;
+  text-align: center;
+}
+
+/* ─── Cover ─── */
+.cover {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  background: linear-gradient(160deg, #1e293b, #0f172a);
+}
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cover-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.45);
+  font-size: 13px;
+  font-style: italic;
+  text-align: center;
+  padding: 0 24px;
+}
+.cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15,23,42,0.15) 0%, rgba(15,23,42,0.72) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  color: #fff;
+}
+.cover-overlay .overline { color: rgba(255,255,255,0.75); }
+.cover-overlay h1 {
+  color: #fff;
+  font-size: 28px;
+  margin-bottom: 4px;
+}
+.cover-overlay p {
+  color: rgba(255,255,255,0.85);
+  font-size: 14px;
+}
+.cover-overlay .ph { color: rgba(255,255,255,0.6); }
+
+/* ─── Cards ─── */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.card:hover { box-shadow: var(--shadow-md); }
+.card-lift { cursor: pointer; text-align: left; width: 100%; font-family: var(--font); color: inherit; }
+.card-lift:hover { transform: translateY(-2px); }
+
+.day-card {
+  display: flex;
+  gap: 14px;
+  padding: 14px;
+  margin-bottom: 10px;
+  align-items: stretch;
+}
+.day-card-thumb {
+  width: 88px;
+  min-height: 88px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--light-bg);
+  border: 1px dashed var(--border);
+}
+.day-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.day-card-body { flex: 1; min-width: 0; }
+.day-card h3 { margin-bottom: 4px; }
+.day-card p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.day-card-arrow {
+  align-self: center;
+  color: var(--muted);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* ─── Buttons ─── */
+.btn {
+  display: block;
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 500;
+  font-family: var(--font);
+  cursor: pointer;
+  text-align: left;
+  margin-bottom: 10px;
+  transition: all 0.15s ease;
+  box-shadow: var(--shadow-sm);
+}
+.btn:active { transform: scale(0.98); }
+.btn-primary {
+  background: var(--dark);
+  color: #fff;
+  border-color: var(--dark);
+  text-align: center;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+}
+.btn-primary:hover { background: #1e293b; }
+.btn-outline {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text);
+  text-align: center;
+  font-weight: 500;
+}
+.btn-outline:hover { border-color: var(--muted); background: var(--light-bg); }
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 16px 0 12px;
+  background: none;
+  border: none;
+  font-family: var(--font);
+  padding: 0;
+}
+.back-link:hover { color: var(--text); }
+
+/* ─── Day page ─── */
+.hero-day { margin-bottom: 18px; }
+.hero-day img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 14px;
+  display: block;
+}
+.hero-day .ph-box { height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 18px;
+}
+.chip {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--blue-dark);
+  background: var(--blue-light);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+.timeline { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+.slot { padding: 14px 16px; }
+.slot-time {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 4px;
+}
+.slot p { font-size: 14px; color: var(--text); line-height: 1.6; }
+.slot ul {
+  margin: 8px 0 0 18px;
+  font-size: 14px;
+  color: var(--text);
+}
+.slot li { margin-bottom: 4px; }
+
+.tip {
+  background: var(--orange-light);
+  border: 1px solid #fde68a;
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--orange-dark);
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+
+.section-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 8px 0 10px;
+}
+
+.add-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 10px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.add-day:hover {
+  border-color: var(--blue);
+  color: var(--blue-dark);
+  background: var(--blue-light);
+}
+
+@media (max-width: 400px) {
+  .container { padding: 0 14px 24px; }
+  h1 { font-size: 26px; }
+  .cover { height: 240px; }
+  .day-card-thumb { width: 72px; min-height: 72px; }
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="accent-bar"></div>
+  <div class="header-content">
+    <button class="logo" onclick="showScreen('home')">Lauter<span>brunnen</span></button>
+    <div class="nav-links">
+      <span class="sync-pill" id="sync-pill" hidden><span class="sync-dot"></span><span id="sync-text">Live</span></span>
+      <button class="nav-pill" id="nav-home" onclick="showScreen('home')">Days</button>
+      <button class="nav-pill" id="nav-share" onclick="sharePlan()">Share</button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div id="screen-home" class="screen active">
+    <div class="cover fade-in">
+      <img src="cover.jpg" alt="Lauterbrunnen valley and Staubbach Falls">
+      <div class="cover-overlay">
+        <div class="overline" contenteditable="true" data-ph="Dates or a short kicker" data-field="kicker"></div>
+        <h1 contenteditable="true" data-ph="Trip title" data-field="title"></h1>
+        <p contenteditable="true" data-ph="One line about the trip" data-field="tagline"></p>
+      </div>
+    </div>
+
+    <p class="subtitle" contenteditable="true" data-multiline="1" data-ph="Write anything you both need — where you're based, weather, passes, booking." data-field="description"></p>
+
+    <p class="section-label">Day plans</p>
+
+    <div id="day-cards"></div>
+    <button type="button" class="add-day" onclick="addDay()">+ Add a day</button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var STORE = 'https://textdb.dev/api/data/';   // holds the shared plan
+var SIGNAL = 'https://ntfy.sh/';              // pushes "someone just edited" to the other browser
+var LS_PLAN = 'lauterbrunnen-plan';
+var LS_ID = 'lauterbrunnen-plan-key';
+var POLL_MS = 6000;                           // backstop if the push stream drops
+var CLIENT = Math.random().toString(36).slice(2, 10);
+
+var COVER_FIELDS = ['kicker', 'title', 'tagline', 'description'];
+var SLOT_TIMES = ['Morning', 'Midday', 'Afternoon', 'Evening'];
+
+var planKey = null;
+var plan = newPlan();
+var dirty = false;
+var syncing = false;
+var saveTimer = null;
+var stream = null;
+
+/* ─── Plan model ─────────────────────────────────────────────
+   Every text lives in a {v: value, t: edited-at} cell, so two
+   people editing different fields merge instead of overwriting.
+───────────────────────────────────────────────────────────── */
+
+function cell(v, t) { return { v: v || '', t: t || 0 }; }
+
+function newPlan() {
+  return {
+    fields: { kicker: cell(''), title: cell('Lauterbrunnen'), tagline: cell(''), description: cell('') },
+    days: [newDay()]
+  };
+}
+
+function newDay() {
+  var day = { id: 'd' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7), created: Date.now(), fields: {} };
+  day.fields.name = cell('');
+  day.fields.highlights = cell('');
+  day.fields.tone = cell('');
+  day.fields.tip = cell('');
+  for (var c = 0; c < 3; c++) day.fields['chip' + c] = cell('');
+  SLOT_TIMES.forEach(function (label, i) {
+    day.fields['s' + i + 'time'] = cell(label);
+    day.fields['s' + i + 'title'] = cell('');
+    day.fields['s' + i + 'detail'] = cell('');
+  });
+  return day;
+}
+
+function get(owner, key) {
+  return (owner.fields[key] || cell('')).v;
+}
+
+function set(owner, key, value) {
+  owner.fields[key] = cell(value, Date.now());
+}
+
+function mergeFields(mine, theirs) {
+  var out = {};
+  var keys = {};
+  Object.keys(mine || {}).forEach(function (k) { keys[k] = 1; });
+  Object.keys(theirs || {}).forEach(function (k) { keys[k] = 1; });
+  Object.keys(keys).forEach(function (k) {
+    var a = (mine || {})[k];
+    var b = (theirs || {})[k];
+    if (!a) { out[k] = b; return; }
+    if (!b) { out[k] = a; return; }
+    out[k] = (b.t > a.t) ? b : a;
+  });
+  return out;
+}
+
+function mergePlans(mine, theirs) {
+  if (!theirs || !Array.isArray(theirs.days)) return mine;
+  var merged = { fields: mergeFields(mine.fields, theirs.fields), days: [] };
+  var byId = {};
+  var order = [];
+  [mine.days, theirs.days].forEach(function (list) {
+    list.forEach(function (day) {
+      if (!day || !day.id) return;
+      if (byId[day.id]) {
+        byId[day.id] = { id: day.id, created: Math.min(byId[day.id].created, day.created || 0), fields: mergeFields(byId[day.id].fields, day.fields) };
+      } else {
+        byId[day.id] = day;
+        order.push(day.id);
+      }
+    });
+  });
+  merged.days = order.map(function (id) { return byId[id]; }).sort(function (a, b) {
+    return (a.created || 0) - (b.created || 0) || (a.id < b.id ? -1 : 1);
+  });
+  return merged;
+}
+
+/* ─── Editing ───────────────────────────────────────────── */
+
+function fieldText(el) {
+  return (el.textContent || '').replace(/\u00a0/g, ' ').trim();
+}
+
+function paint(el, value) {
+  if (!el || el === document.activeElement) return;
+  if (fieldText(el) === (value || '')) return;
+  el.textContent = value || '';
+}
+
+function bindEditable(el, read, write) {
+  el.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && el.getAttribute('data-multiline') !== '1') {
+      e.preventDefault();
+      el.blur();
+    }
+  });
+  el.addEventListener('paste', function (e) {
+    e.preventDefault();
+    var text = (e.clipboardData || window.clipboardData).getData('text/plain');
+    document.execCommand('insertText', false, text);
+  });
+  el.addEventListener('input', function () {
+    write(fieldText(el));
+    onEdit();
+  });
+  if (read) paint(el, read());
+}
+
+/* ─── Rendering ─────────────────────────────────────────── */
+
+function showScreen(id) {
+  var next = document.getElementById('screen-' + id) || document.getElementById(id);
+  if (!next) next = document.getElementById('screen-home');
+  document.querySelectorAll('.screen').forEach(function (el) {
+    var on = el === next;
+    el.classList.toggle('active', on);
+    el.toggleAttribute('hidden', !on);
+  });
+  window.scrollTo(0, 0);
+  document.getElementById('nav-home').classList.toggle('active', next.id === 'screen-home');
+}
+
+function paintCover() {
+  COVER_FIELDS.forEach(function (key) {
+    paint(document.querySelector('[data-field="' + key + '"]'), get(plan, key));
+  });
+  document.title = (get(plan, 'title') || 'Lauterbrunnen') + ' — Travel Plan';
+}
+
+function buildCard(day) {
+  var card = document.createElement('div');
+  card.className = 'card card-lift day-card';
+  card.setAttribute('data-day', day.id);
+  card.innerHTML =
+    '<div class="day-card-thumb"></div>' +
+    '<div class="day-card-body">' +
+      '<h3 contenteditable="true" data-key="name" data-ph="Day name"></h3>' +
+      '<p contenteditable="true" data-key="highlights" data-multiline="1" data-ph="Highlights of the day — a sentence or two."></p>' +
+    '</div>' +
+    '<span class="day-card-arrow">›</span>';
+  wireDayFields(card, day);
+  card.addEventListener('click', function (e) {
+    if (e.target.closest('[contenteditable]')) return;
+    showScreen('day-' + day.id);
+  });
+  return card;
+}
+
+function buildScreen(day) {
+  var screen = document.createElement('div');
+  screen.id = 'screen-day-' + day.id;
+  screen.className = 'screen';
+  screen.setAttribute('data-day', day.id);
+  screen.hidden = true;
+
+  var chips = '';
+  for (var c = 0; c < 3; c++) {
+    chips += '<span class="chip" contenteditable="true" data-key="chip' + c + '" data-ph="Tag"></span>';
+  }
+  var slots = '';
+  SLOT_TIMES.forEach(function (_, i) {
+    slots +=
+      '<div class="card slot">' +
+        '<div class="slot-time" contenteditable="true" data-key="s' + i + 'time" data-ph="When"></div>' +
+        '<h3 contenteditable="true" data-key="s' + i + 'title" data-ph="What you\'re doing"></h3>' +
+        '<p contenteditable="true" data-key="s' + i + 'detail" data-multiline="1" data-ph="Details, how to get there, how long it takes."></p>' +
+      '</div>';
+  });
+
+  screen.innerHTML =
+    '<button class="back-link" type="button">← Days</button>' +
+    '<div class="hero-day fade-in">' +
+      '<div class="ph-box">Day image (optional)</div>' +
+      '<h2 contenteditable="true" data-key="name" data-ph="Day name"></h2>' +
+      '<p class="subtitle" contenteditable="true" data-key="tone" data-multiline="1" data-ph="One line setting the tone for the day."></p>' +
+    '</div>' +
+    '<div class="chips">' + chips + '</div>' +
+    '<div class="timeline">' + slots + '</div>' +
+    '<div class="tip" contenteditable="true" data-key="tip" data-multiline="1" data-ph="Tip — what to pack, book ahead, or skip in bad weather."></div>' +
+    '<button class="btn btn-primary" type="button">Back to cover</button>' +
+    '<button class="btn btn-outline" type="button">Back to days</button>';
+
+  screen.querySelector('.back-link').onclick = function () { showScreen('home'); };
+  screen.querySelector('.btn-outline').onclick = function () { showScreen('home'); };
+  wireDayFields(screen, day);
+  return screen;
+}
+
+function wireDayFields(root, day) {
+  root.querySelectorAll('[data-key]').forEach(function (el) {
+    var key = el.getAttribute('data-key');
+    bindEditable(el, function () { return get(day, key); }, function (value) {
+      set(day, key, value);
+      paintDay(day);
+    });
+  });
+}
+
+function paintDay(day) {
+  document.querySelectorAll('[data-day="' + day.id + '"] [data-key]').forEach(function (el) {
+    paint(el, get(day, el.getAttribute('data-key')));
+  });
+}
+
+function render() {
+  var cards = document.getElementById('day-cards');
+  var container = document.querySelector('.container');
+  var live = {};
+
+  plan.days.forEach(function (day, i) {
+    live[day.id] = 1;
+    var card = cards.querySelector('[data-day="' + day.id + '"]');
+    if (!card) {
+      card = buildCard(day);
+      cards.appendChild(card);
+    }
+    var screen = document.getElementById('screen-day-' + day.id);
+    if (!screen) {
+      screen = buildScreen(day);
+      container.appendChild(screen);
+    }
+    if (cards.children[i] !== card && !card.contains(document.activeElement)) cards.insertBefore(card, cards.children[i]);
+    paintDay(day);
+
+    var primary = screen.querySelector('.btn-primary');
+    var next = plan.days[i + 1];
+    if (next) {
+      primary.textContent = 'Next day';
+      primary.onclick = function () { showScreen('day-' + next.id); };
+    } else {
+      primary.textContent = 'Back to cover';
+      primary.onclick = function () { showScreen('home'); };
+    }
+  });
+
+  cards.querySelectorAll('[data-day]').forEach(function (el) {
+    if (!live[el.getAttribute('data-day')]) el.remove();
+  });
+  document.querySelectorAll('.screen[data-day]').forEach(function (el) {
+    if (!live[el.getAttribute('data-day')]) el.remove();
+  });
+  if (!document.querySelector('.screen.active')) showScreen('home');
+}
+
+function addDay() {
+  plan.days.push(newDay());
+  render();
+  onEdit();
+}
+
+/* ─── Sync ──────────────────────────────────────────────── */
+
+function status(state, text) {
+  var pill = document.getElementById('sync-pill');
+  pill.hidden = !planKey;
+  pill.className = 'sync-pill' + (state ? ' is-' + state : '');
+  document.getElementById('sync-text').textContent = text;
+}
+
+function toast(msg) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(function () { el.classList.remove('show'); }, 3600);
+}
+
+function saveLocal() {
+  try { localStorage.setItem(LS_PLAN, JSON.stringify(plan)); } catch (e) {}
+}
+
+function onEdit() {
+  dirty = true;
+  saveLocal();
+  if (planKey) status('saving', 'Saving…');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(sync, 400);
+}
+
+function shareUrl() {
+  var u = new URL(location.href);
+  if (planKey) u.searchParams.set('p', planKey);
+  return u.toString();
+}
+
+function setPlanKey(key) {
+  planKey = key;
+  try { localStorage.setItem(LS_ID, key); } catch (e) {}
+  var u = new URL(location.href);
+  u.searchParams.set('p', key);
+  history.replaceState(null, '', u);
+  listen();
+}
+
+async function readRemote() {
+  var res = await fetch(STORE + planKey + '?t=' + Date.now(), { cache: 'no-store' });
+  if (!res.ok) throw new Error('read failed');
+  var text = await res.text();
+  if (!text) return null; // nothing saved under this link yet
+  try { return JSON.parse(text); } catch (e) { return null; }
+}
+
+async function writeRemote() {
+  var res = await fetch(STORE + planKey, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(plan)
+  });
+  if (!res.ok) throw new Error('write failed');
+  // Nudge the other browser so it reloads immediately instead of waiting for the next poll.
+  fetch(SIGNAL + topic() + '?cache=no', { method: 'POST', body: CLIENT }).catch(function () {});
+}
+
+/* One pass: read what the other person wrote, merge it into ours,
+   and write back when we have local edits. */
+async function sync() {
+  if (!planKey || syncing) return;
+  syncing = true;
+  try {
+    var merged = mergePlans(plan, await readRemote());
+    if (JSON.stringify(merged) !== JSON.stringify(plan)) {
+      plan = merged;
+      paintCover();
+      render();
+      saveLocal();
+    }
+    if (dirty) {
+      dirty = false;
+      await writeRemote();
+    }
+    status('', 'Live');
+  } catch (e) {
+    dirty = true;
+    status('offline', 'Offline');
+  } finally {
+    syncing = false;
+  }
+}
+
+function topic() {
+  return 'lbplan-' + planKey;
+}
+
+/* Server-sent events: the other person's save arrives as a push,
+   so their words land here in about a second. */
+function listen() {
+  if (!planKey || stream) return;
+  stream = new EventSource(SIGNAL + topic() + '/sse');
+  stream.onopen = function () { status('', 'Live'); };
+  stream.onmessage = function (e) {
+    var msg = null;
+    try { msg = JSON.parse(e.data); } catch (err) { return; }
+    if (!msg || msg.event !== 'message' || msg.message === CLIENT) return;
+    sync();
+  };
+  stream.onerror = function () { status('offline', 'Reconnecting…'); };
+}
+
+async function sharePlan() {
+  var btn = document.getElementById('nav-share');
+  btn.textContent = 'Sharing…';
+  try {
+    if (!planKey) {
+      setPlanKey('lb' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8));
+    }
+    dirty = true;
+    await sync();
+    try { await navigator.clipboard.writeText(shareUrl()); } catch (e) {}
+    var local = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
+    toast(local
+      ? 'Link copied. She needs this page online, then you both see edits as they happen.'
+      : 'Link copied. You both see each other\u2019s edits as they happen.');
+  } catch (e) {
+    toast('Could not create a share link. Check the connection and try again.');
+  }
+  btn.textContent = 'Share';
+}
+
+async function init() {
+  COVER_FIELDS.forEach(function (key) {
+    var el = document.querySelector('[data-field="' + key + '"]');
+    bindEditable(el, function () { return get(plan, key); }, function (value) { set(plan, key, value); });
+  });
+
+  try {
+    var saved = JSON.parse(localStorage.getItem(LS_PLAN) || 'null');
+    if (saved && Array.isArray(saved.days) && saved.days.length && saved.days[0].fields) plan = saved;
+  } catch (e) {}
+
+  paintCover();
+  render();
+
+  var params = new URLSearchParams(location.search);
+  var key = params.get('p') || localStorage.getItem(LS_ID);
+  if (key) {
+    status('saving', 'Connecting…');
+    setPlanKey(key);
+    await sync();
+  }
+  setInterval(sync, POLL_MS);
+  window.addEventListener('focus', sync);
+}
+
+init();
+</script>
+</body>
+</html>
