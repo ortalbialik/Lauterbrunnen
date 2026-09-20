@@ -1,0 +1,4646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Lauterbrunnen — Travel Plan</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --red: #ef4444;
+  --red-light: #fee2e2;
+  --red-dark: #991b1b;
+  --orange: #f97316;
+  --orange-light: #fef3c7;
+  --orange-dark: #92400e;
+  --green: #22c55e;
+  --green-light: #dcfce7;
+  --green-dark: #166534;
+  --blue: #3b82f6;
+  --blue-light: #dbeafe;
+  --blue-dark: #1e40af;
+  --purple: #8b5cf6;
+  --purple-light: #ede9fe;
+  --dark: #0f172a;
+  --text: #1e293b;
+  --muted: #94a3b8;
+  --border: #e2e8f0;
+  --light-bg: #f8fafc;
+  --card-bg: #ffffff;
+  --radius: 12px;
+  --photo-ratio: 4 / 3;
+  --thumb-size: 72px;
+  --cover-height: 150px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--light-bg);
+  color: var(--text);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 20px 32px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  width: 100%;
+  background: var(--dark);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.app-header .accent-bar {
+  height: 3px;
+  background: linear-gradient(90deg, var(--red), var(--orange), var(--blue), var(--purple));
+}
+.app-header .header-content {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-pill {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.7);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font);
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+.nav-pill.active { background: rgba(255,255,255,0.2); color: #fff; }
+.nav-links {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-links::-webkit-scrollbar { display: none; }
+
+/* One Menu button keeps the bar to a single row however many pages exist. */
+.menu-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.menu-bars { font-size: 14px; line-height: 1; }
+
+.app-menu[hidden] { display: none; }
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.35);
+  z-index: 1;
+}
+.menu-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--card-bg);
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+.menu-item {
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: 500 15px/1.2 var(--font);
+  text-align: left;
+  padding: 13px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.menu-item:hover, .menu-item:focus-visible { background: var(--light-bg); }
+.menu-item.active {
+  background: var(--blue-light);
+  color: var(--blue-dark);
+  font-weight: 600;
+}
+.menu-item[hidden] { display: none; }
+.menu-action { color: var(--blue-dark); }
+.menu-sep {
+  height: 1px;
+  margin: 6px 8px;
+  background: var(--border);
+}
+
+.status-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: auto;
+  padding-left: 10px;
+  flex: 0 0 auto;
+}
+.plan-code {
+  border: 0;
+  background: transparent;
+  color: rgba(255,255,255,0.82);
+  font: 600 11px/1.2 var(--font);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  padding: 0;
+  white-space: nowrap;
+}
+.plan-code:hover, .plan-code:focus-visible { color: #fff; text-decoration: underline; }
+.plan-code[hidden] { display: none; }
+.sync-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(255,255,255,0.55);
+  font-size: 12px;
+  font-weight: 500;
+  margin-left: 0;
+  padding-left: 0;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+.sync-pill[hidden] { display: none; }
+.sync-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+}
+.sync-dot { background: rgba(255,255,255,0.35); }
+.sync-pill.is-together { color: rgba(255,255,255,0.85); }
+.sync-pill.is-together .sync-dot { background: var(--green); }
+.sync-pill.is-offline .sync-dot { background: var(--red); }
+
+[contenteditable] {
+  outline: none;
+  cursor: text;
+  min-width: 1em;
+}
+[contenteditable]:focus {
+  outline: none;
+  box-shadow: none;
+}
+[contenteditable]:empty::before {
+  content: attr(data-ph);
+  color: var(--muted);
+  font-style: italic;
+  pointer-events: none;
+}
+[data-display]:empty::before {
+  content: attr(data-ph);
+  color: var(--muted);
+  font-style: italic;
+}
+.cover-overlay [contenteditable]:empty::before {
+  color: rgba(255,255,255,0.55);
+}
+.hero-day h2[contenteditable] {
+  color: var(--dark);
+  font-style: normal;
+}
+.subtitle[contenteditable]:not(:empty) { color: var(--text); font-style: normal; }
+.tip[contenteditable]:not(:empty) { color: var(--blue-dark); font-style: normal; }
+.chip[contenteditable] { min-width: 0; min-height: 1.4em; width: max-content; }
+.chip[contenteditable]:empty { min-width: 2.2em; }
+
+.toast {
+  position: fixed;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translate(-50%, 10px);
+  width: min(440px, calc(100% - 32px));
+  background: var(--dark);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  padding: 12px 18px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  z-index: 200;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+}
+.toast.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+@media (prefers-reduced-motion: reduce) {
+  .toast { transition: none; }
+}
+
+.name-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.name-gate[hidden], .plan-gate[hidden] { display: none; }
+.plan-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 310;
+  background: rgba(15, 23, 42, 0.62);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.name-card {
+  width: min(360px, 100%);
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 22px 20px 18px;
+}
+.plan-card { width: min(390px, 100%); }
+.plan-card .plan-current {
+  color: var(--text);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.plan-card .plan-divider {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+  margin: 12px 0;
+}
+.plan-known { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.plan-known[hidden] { display: none; }
+.plan-known button {
+  border: 1px solid var(--border);
+  background: var(--light-bg);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font: 600 12px/1.2 var(--font);
+  cursor: pointer;
+}
+.plan-card .btn { width: 100%; }
+.plan-card .btn + .btn { margin-top: 8px; }
+.name-card h2 { margin-bottom: 6px; }
+.name-card p { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+.name-card input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 16px;
+  font-family: var(--font);
+  margin-bottom: 12px;
+  outline: none;
+  color: var(--text);
+}
+.name-card .btn-primary { margin-bottom: 0; }
+
+.screen { display: none; flex-direction: column; flex: 1; }
+.screen.active { display: flex; }
+.screen.active:not(#screen-home) { padding-top: 8px; }
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp 0.5s ease forwards;
+}
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--dark);
+  line-height: 1.2;
+}
+h2 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--dark);
+  margin-bottom: 8px;
+}
+h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 6px;
+}
+.overline {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.subtitle {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.weather-place {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+.weather-place input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 16px;
+  font-family: var(--font);
+  outline: none;
+  color: var(--text);
+}
+.weather-place .btn { margin: 0; padding: 10px 12px; font-size: 13px; width: auto; }
+.weather-card {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+.weather-emoji {
+  font-size: 28px;
+  line-height: 1;
+  width: 40px;
+  text-align: center;
+  flex: 0 0 auto;
+}
+.weather-card h3 { margin-bottom: 2px; font-size: 16px; }
+.weather-card p { font-size: 14px; color: var(--muted); margin: 0; }
+
+/* Placeholder text — replace the content, then this styling stops applying */
+.ph { color: var(--muted); font-weight: 400; font-style: italic; }
+
+/* ─── Cover ─── */
+.cover {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  background: linear-gradient(160deg, #1e293b, #0f172a);
+}
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cover-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.45);
+  font-size: 13px;
+  font-style: italic;
+  text-align: center;
+  padding: 0 24px;
+}
+.cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15,23,42,0.15) 0%, rgba(15,23,42,0.72) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  color: #fff;
+}
+.cover-overlay .overline { color: rgba(255,255,255,0.75); }
+.cover-overlay .overline { font-size: 13px; }
+.cover-dates {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.cover-dates .overline { margin-bottom: 0; }
+.cover-dates-icon { font-size: 16px; line-height: 1; }
+.cover-overlay h1 {
+  color: #fff;
+  font-size: 40px;
+  line-height: 1.05;
+  margin-bottom: 8px;
+}
+.cover-overlay > p {
+  color: rgba(255,255,255,0.85);
+  font-size: 18px;
+  line-height: 1.35;
+}
+.cover-overlay .ph { color: rgba(255,255,255,0.6); }
+
+@media (max-width: 520px) {
+  .cover {
+    width: auto;
+    margin-inline: -20px;
+  }
+}
+
+/* ─── Cards ─── */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.card:hover { box-shadow: var(--shadow-md); }
+.card-lift { cursor: pointer; text-align: start; width: 100%; font-family: var(--font); color: inherit; }
+.card-lift:hover { transform: translateY(-2px); }
+
+.day-card {
+  display: flex;
+  gap: 8px;
+  padding: 14px 14px 14px 16px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+}
+.day-card-body { flex: 1; min-width: 0; }
+.day-card h3 { margin-bottom: 0; }
+.day-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.day-card-head .day-card-tags {
+  margin-top: 0;
+}
+.day-card p {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.day-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 9px;
+}
+.day-card-tags:empty { display: none; }
+.day-card-tags .chip {
+  font-size: 10px;
+  padding: 3px 8px;
+}
+.day-card .trash-btn { align-self: center; }
+
+.icon-btn {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1;
+  font-family: var(--font);
+  cursor: pointer;
+  opacity: 0.55;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: opacity 0.15s, background 0.15s, color 0.15s;
+}
+.icon-btn:hover { opacity: 1; background: #fee2e2; color: #b91c1c; }
+.trash-icon {
+  width: 15px;
+  height: 15px;
+  display: block;
+}
+
+/* ─── Buttons ─── */
+.btn[hidden] { display: none; }
+.btn {
+  display: block;
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 500;
+  font-family: var(--font);
+  cursor: pointer;
+  text-align: left;
+  margin-bottom: 10px;
+  transition: all 0.15s ease;
+  box-shadow: var(--shadow-sm);
+}
+.btn:active { transform: scale(0.98); }
+.btn-primary {
+  background: var(--dark);
+  color: #fff;
+  border-color: var(--dark);
+  text-align: center;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+}
+.btn-primary:hover { background: #1e293b; }
+.btn-outline {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text);
+  text-align: center;
+  font-weight: 500;
+}
+.btn-outline:hover { border-color: var(--muted); background: var(--light-bg); }
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 16px 0 12px;
+  background: none;
+  border: none;
+  font-family: var(--font);
+  padding: 0;
+}
+.back-link:hover { color: var(--text); }
+
+/* ─── Day page ─── */
+.hero-day { margin-bottom: 18px; }
+.day-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.day-title-row h2 {
+  margin-bottom: 0;
+  flex: 0 1 auto;
+}
+.day-title-row .chips {
+  margin: 0;
+  flex: 1 1 auto;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0 18px;
+}
+.chip-add {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: transparent;
+  border: 1px dashed var(--border);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.chip-add:hover { border-color: var(--blue); color: var(--blue-dark); }
+.chip {
+  display: inline-block;
+  width: max-content;
+  max-width: 100%;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--blue-dark);
+  background: var(--blue-light);
+  border-radius: 999px;
+  padding: 4px 8px;
+  white-space: nowrap;
+}
+.chip-shell {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  max-width: 100%;
+  flex: 0 0 auto;
+  background: var(--blue-light);
+  border-radius: 999px;
+}
+.chip-shell .chip { padding-right: 4px; }
+.chip-remove {
+  width: 22px;
+  height: 22px;
+  margin-right: 3px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0;
+  background: transparent;
+  color: var(--blue-dark);
+  cursor: pointer;
+  opacity: 0.6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.chip-remove .trash-icon { width: 12px; height: 12px; }
+.chip-remove:hover { opacity: 1; background: rgba(255,255,255,0.65); }
+/* The photo link and the tags share the line under the cover. */
+.slot-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+.slot-meta .image-picker {
+  margin-top: 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 11px;
+}
+.slot-tools {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-inline-start: auto;
+  margin-inline-end: 0;
+  flex-shrink: 0;
+}
+.slot-tools > * { flex: 0 0 auto; }
+.slot-tags {
+  margin: 0;
+  min-width: 0;
+  flex: 1 1 0;
+  flex-wrap: nowrap;
+  overflow: visible;
+}
+.image-link {
+  flex: 0 0 24px;
+  width: 24px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--blue-dark);
+  font: 15px/1 var(--font);
+  cursor: pointer;
+}
+.image-link:hover, .image-link:focus-visible { background: var(--blue-light); }
+
+.day-highlights {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.day-gallery {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+  margin: 0 0 18px;
+}
+.day-gallery::-webkit-scrollbar { display: none; }
+.day-gallery:empty { display: none; }
+.gallery-thumb {
+  flex: 0 0 var(--thumb-size);
+  aspect-ratio: 1 / 1;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--light-bg);
+  scroll-snap-align: start;
+  cursor: zoom-in;
+}
+.gallery-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(9, 13, 25, 0.92);
+  padding: 24px 12px;
+  overflow: hidden;
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  /* the page meta blocks native pinch, so the viewer does its own zoom */
+  touch-action: none;
+  transform-origin: center center;
+  cursor: zoom-in;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.lightbox img.zoomed { cursor: zoom-out; }
+.lightbox-btn {
+  position: absolute;
+  border: 0;
+  border-radius: 999px;
+  width: 42px;
+  height: 42px;
+  font-size: 20px;
+  color: #0f172a;
+  background: rgba(255,255,255,0.92);
+  cursor: pointer;
+}
+.lightbox-close { top: 16px; right: 16px; }
+.lightbox-prev { left: 12px; }
+.lightbox-next { right: 12px; }
+.lightbox-btn[hidden] { display: none; }
+
+.timeline { display: flex; flex-direction: column; gap: 10px; }
+.timeline:not(:empty) { margin-bottom: 10px; }
+.slot { padding: 14px 16px; }
+.slot[dir="rtl"] ul { margin: 8px 18px 0 0; }
+.move-btn {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  opacity: 0.65;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.move-btn:hover, .move-btn:focus-visible { opacity: 1; background: var(--light-bg); }
+.move-btn svg { width: 16px; height: 16px; display: block; }
+/* The end of the list keeps its button, greyed out, so the row of
+   controls does not jump about as cards are moved. */
+.move-btn:disabled {
+  opacity: 0.2;
+  cursor: default;
+  background: transparent;
+}
+@media (pointer: coarse) {
+  .move-btn {
+    width: 42px;
+    height: 42px;
+  }
+  .move-btn svg { width: 18px; height: 18px; }
+}
+.slot-tools .move-btn { width: 26px; height: 28px; }
+.slot-tools .move-btn svg { width: 15px; height: 15px; }
+.slot-tools > .trash-btn { width: 26px; }
+.heart-btn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+.heart-btn.is-on { color: var(--red); }
+.heart-names {
+  display: block;
+  clear: both;
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+.heart-names:empty { display: none; }
+
+.heart-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 14px;
+}
+.heart-filter {
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font);
+  cursor: pointer;
+}
+.heart-filter.is-on {
+  background: var(--red-light);
+  border-color: #fecaca;
+  color: var(--red-dark);
+}
+.heart-item {
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font-family: var(--font);
+  color: inherit;
+}
+.heart-item .muted { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.heart-empty { color: var(--muted); font-size: 14px; line-height: 1.6; }
+/* The photo caps the card like a cover: cropped here, full size on tap. */
+.slot-image {
+  position: relative;
+  margin: -14px -16px 12px;
+}
+.slot-image[hidden] { display: none; }
+.slot-image img {
+  display: block;
+  width: 100%;
+  height: var(--cover-height);
+  object-fit: cover;
+  border-radius: var(--radius) var(--radius) 0 0;
+  cursor: zoom-in;
+}
+.image-actions {
+  position: absolute;
+  inset-block-start: 8px;
+  inset-inline-end: 8px;
+  display: flex;
+  gap: 6px;
+}
+.slot-image .image-edit,
+.slot-image .image-remove {
+  width: 26px;
+  height: 26px;
+  font-size: 15px;
+  opacity: 0.95;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.slot-image .edit-icon { width: 14px; height: 14px; }
+.image-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  color: var(--blue-dark);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.image-picker input { display: none; }
+.image-picker[hidden] { display: none; }
+.slot-time {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 4px;
+}
+.slot p { font-size: 16px; color: var(--text); line-height: 1.65; }
+.slot ul {
+  margin: 8px 0 0 18px;
+  font-size: 16px;
+  color: var(--text);
+}
+.slot li { margin-bottom: 4px; }
+
+/* Where the activity is, on the last line of the card. */
+.slot-address {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.slot-address-text {
+  color: var(--muted);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.slot-address-text:not(:empty) { color: var(--text); }
+.slot-maps {
+  margin-inline-start: auto;
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--blue-dark);
+  background: var(--blue-light);
+  border-radius: 999px;
+  padding: 4px 10px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.slot-maps:hover { background: #dbeafe; }
+.slot-maps[hidden] { display: none; }
+
+.tip {
+  background: var(--blue-light);
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--blue-dark);
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+
+.section-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 8px 0 10px;
+}
+
+.add-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 10px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.add-day:hover {
+  border-color: var(--blue);
+  color: var(--blue-dark);
+  background: var(--blue-light);
+}
+.add-card { padding: 12px; font-size: 13px; margin-bottom: 18px; }
+.add-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.add-options .add-day { margin: 0; padding: 12px 8px; font-size: 13px; }
+
+.doc-card { padding: 14px 16px; margin-bottom: 10px; }
+.doc-card .trash-btn { float: right; }
+.doc-preview {
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--photo-ratio);
+  object-fit: cover;
+  cursor: zoom-in;
+  border-radius: 10px;
+  margin: 0 0 10px;
+  border: 1px solid var(--border);
+}
+.doc-file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--light-bg);
+  color: var(--blue-dark);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.doc-empty { color: var(--muted); font-size: 14px; line-height: 1.6; margin-bottom: 14px; }
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.task-row input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  accent-color: var(--green);
+}
+.task-row [contenteditable] {
+  flex: 1;
+  min-width: 0;
+  font-size: 16px;
+}
+.task-row.is-done [contenteditable] {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+.task-row .trash-btn { flex: 0 0 auto; margin-left: auto; }
+.task-empty { color: var(--muted); font-size: 14px; line-height: 1.6; margin-bottom: 14px; }
+.full-day-import {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 14px;
+  margin-bottom: 18px;
+}
+.full-day-import[hidden] { display: none; }
+.full-day-import h3 { margin-bottom: 4px; }
+.full-day-import > p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+.full-day-text {
+  display: block;
+  width: 100%;
+  min-height: 150px;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  color: var(--text);
+  background: var(--light-bg);
+  font: 14px/1.5 var(--font);
+  outline: none;
+}
+.full-day-text:focus { border-color: var(--blue); }
+.full-day-text.is-drop-target { background: var(--blue-light); border-color: var(--blue); }
+.import-actions { display: flex; gap: 8px; margin-top: 10px; }
+.import-actions .btn { margin: 0; padding: 10px 12px; font-size: 13px; }
+
+@media (max-width: 400px) {
+  .container { padding: 0 14px 24px; }
+  h1 { font-size: 26px; }
+  .cover { height: 240px; margin-inline: -14px; }
+  .cover-overlay h1 { font-size: 34px; }
+  .cover-overlay > p { font-size: 16px; }
+  .app-header .header-content { padding: 12px 14px; }
+  .nav-links { gap: 5px; }
+  .nav-pill { padding: 6px 10px; font-size: 12px; }
+  .status-info { padding-left: 8px; }
+  .sync-pill { font-size: 11px; gap: 5px; }
+  .plan-code { font-size: 10px; }
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="accent-bar"></div>
+  <div class="header-content">
+    <div class="nav-links">
+      <button class="nav-pill menu-button" id="nav-menu" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="menu-panel" onclick="toggleMenu()"><span class="menu-bars" aria-hidden="true">☰</span>Menu</button>
+    </div>
+    <div class="status-info">
+      <button class="plan-code" id="plan-code" type="button" hidden onclick="showPlanGate()">Plan</button>
+      <span class="sync-pill" id="sync-pill" hidden><span class="sync-dot"></span><span id="sync-text">Live</span></span>
+    </div>
+  </div>
+  <div class="app-menu" id="app-menu" hidden>
+    <div class="menu-backdrop" onclick="closeMenu()"></div>
+    <nav class="menu-panel" id="menu-panel" aria-label="Pages">
+      <button class="menu-item" type="button" id="nav-home" data-screen="screen-home" onclick="showScreen('home')">Main</button>
+      <button class="menu-item" type="button" id="nav-hearts" data-screen="screen-hearts" onclick="showScreen('hearts')">Favorites</button>
+      <button class="menu-item" type="button" id="nav-docs" data-screen="screen-docs" onclick="showScreen('docs')">Docs</button>
+      <button class="menu-item" type="button" id="nav-weather" data-screen="screen-weather" onclick="showScreen('weather')">Weather</button>
+      <button class="menu-item" type="button" id="nav-tasks" data-screen="screen-tasks" onclick="showScreen('tasks')">Tasks</button>
+      <div id="menu-extra"></div>
+      <div class="menu-sep"></div>
+      <button class="menu-item menu-action" type="button" id="nav-share" onclick="copyLink()">Copy link</button>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+
+  <div id="screen-home" class="screen active">
+    <div class="cover fade-in">
+      <img src="cover.jpg" alt="Lauterbrunnen valley and Staubbach Falls">
+      <div class="cover-overlay">
+        <div class="cover-dates">
+          <span class="cover-dates-icon" aria-hidden="true">📅</span>
+          <div class="overline" contenteditable="true" data-ph="Dates" data-field="kicker"></div>
+        </div>
+        <h1 contenteditable="true" data-ph="Trip title" data-field="title"></h1>
+        <p contenteditable="true" data-ph="One line about the trip" data-field="tagline"></p>
+      </div>
+    </div>
+
+    <p class="subtitle" contenteditable="true" data-multiline="1" data-ph="Write anything you both need — where you're based, weather, passes, booking." data-field="description"></p>
+
+    <p class="section-label">Day plans</p>
+
+    <div id="day-cards"></div>
+    <button type="button" class="add-day" onclick="addDay()">+ Add a day</button>
+  </div>
+
+  <div id="screen-hearts" class="screen" hidden>
+    <button class="back-link" type="button" onclick="showScreen('home')">← Main</button>
+    <h2>Favorites</h2>
+    <p class="subtitle" style="margin-bottom:14px">Activities you and your friend marked.</p>
+    <div class="heart-filters" id="heart-filters"></div>
+    <div id="heart-list"></div>
+  </div>
+
+  <div id="screen-docs" class="screen" hidden>
+    <button class="back-link" type="button" onclick="showScreen('home')">← Main</button>
+    <h2>Docs</h2>
+    <p class="subtitle" style="margin-bottom:14px">Tickets, maps, bookings, and photos you both need.</p>
+    <div id="docs-list"></div>
+    <div class="add-options">
+      <label class="add-day add-card">+ Add image<input id="docs-image-input" type="file" accept="image/*" hidden></label>
+      <label class="add-day add-card">+ Add file<input id="docs-file-input" type="file" hidden></label>
+    </div>
+  </div>
+
+  <div id="screen-weather" class="screen" hidden>
+    <button class="back-link" type="button" onclick="showScreen('home')">← Main</button>
+    <h2>Weather</h2>
+    <p class="subtitle" style="margin-bottom:14px">Local forecast for the trip, from Open-Meteo. About 16 days from today.</p>
+    <form id="weather-place-form" class="weather-place">
+      <input id="weather-place" type="text" value="Lauterbrunnen" autocomplete="off" aria-label="Place">
+      <button class="btn btn-outline" type="submit">Look up</button>
+    </form>
+    <p class="subtitle" id="weather-note" style="margin-bottom:14px"></p>
+    <div id="weather-list"></div>
+  </div>
+
+  <div id="screen-tasks" class="screen" hidden>
+    <button class="back-link" type="button" onclick="showScreen('home')">← Main</button>
+    <h2>Tasks</h2>
+    <p class="subtitle" style="margin-bottom:14px">Things to do before and during the trip.</p>
+    <div id="tasks-list"></div>
+    <button type="button" class="add-day" onclick="addTask()">+ Add a task</button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Photo">
+  <img id="lightbox-image" alt="">
+  <button class="lightbox-btn lightbox-prev" type="button" aria-label="Previous photo">‹</button>
+  <button class="lightbox-btn lightbox-next" type="button" aria-label="Next photo">›</button>
+  <button class="lightbox-btn lightbox-close" type="button" aria-label="Close photo">×</button>
+</div>
+
+<div id="name-gate" class="name-gate" hidden>
+  <form class="name-card" onsubmit="submitName(event)">
+    <h2>What’s your name?</h2>
+    <p>Saved on this phone. You won’t be asked again.</p>
+    <input id="name-input" type="text" maxlength="40" autocomplete="given-name" placeholder="Your first name">
+    <button class="btn btn-primary" type="submit">Continue</button>
+  </form>
+</div>
+
+<div id="plan-gate" class="plan-gate" hidden>
+  <form class="name-card plan-card" onsubmit="openEnteredPlan(event)">
+    <h2 id="plan-gate-title">Open your travel plan</h2>
+    <p id="plan-gate-help">Paste the plan link from your phone so this device opens the same trip.</p>
+    <p id="plan-current" class="plan-current" hidden></p>
+    <div id="plan-known" class="plan-known" hidden></div>
+    <input id="plan-link-input" type="text" inputmode="url" autocomplete="url" placeholder="Paste the plan link here">
+    <button class="btn btn-primary" type="submit">Open this plan</button>
+    <button id="copy-plan-link" class="btn btn-outline" type="button" hidden onclick="copyLink()">Copy this plan’s link</button>
+    <button id="close-plan-gate" class="btn btn-outline" type="button" hidden onclick="hidePlanGate()">Cancel</button>
+    <div id="new-plan-choice" class="plan-divider">or</div>
+    <button id="new-plan-button" class="btn btn-outline" type="button" onclick="startNewPlan()">Start a new empty plan</button>
+  </form>
+</div>
+
+<!-- inline:maps.js -->
+<script>
+/* An address on a card is whatever she pastes: a typed street, a share
+   sheet blob, or a bare link. Keep the readable part on the card and the
+   link behind the pin. */
+var URL_TOKEN = /(?:https?:\/\/|www\.)[^\s<>"'\u00ab\u00bb]+/gi;
+var MAPS_URL = new RegExp(
+  '^(?:https?://)?(?:www\\.)?(?:' +
+    'google\\.[a-z.]{2,8}/maps' + '|' +
+    'maps\\.google\\.[a-z.]{2,8}' + '|' +
+    'maps\\.app\\.goo\\.gl' + '|' +
+    'goo\\.gl/maps' +
+  ')(?:[/?#]|$)',
+  'i'
+);
+var SEARCH = 'https://www.google.com/maps/search/?api=1&query=';
+
+/* A link copied out of a sentence drags the punctuation that closed it. */
+function trimUrl(url) {
+  return String(url || '').replace(/[)\].,;:!?'"]+$/, '');
+}
+
+function isMapsUrl(text) {
+  return MAPS_URL.test(trimUrl(String(text || '').trim()));
+}
+
+function withProtocol(url) {
+  return /^https?:\/\//i.test(url) ? url : 'https://' + url.replace(/^\/+/, '');
+}
+
+/* google.com/maps/place/Staubbach+Falls/@46.59,7.90 says where it is
+   even before the page loads. */
+function placeFromMapsUrl(url) {
+  var place = String(url || '').match(/\/maps\/place\/([^/@?#]+)/i);
+  var query = String(url || '').match(/[?&](?:q|query|daddr)=([^&#]+)/i);
+  var raw = (place && place[1]) || (query && query[1]) || '';
+  if (!raw) return '';
+  var text = raw.replace(/\+/g, ' ');
+  try { text = decodeURIComponent(text); } catch (e) { /* a half-escaped paste is still readable */ }
+  text = text.trim();
+  // Coordinates are not an address anyone reads.
+  return /^-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?$/.test(text) ? '' : text;
+}
+
+/* Split pasted text into what she reads and what the pin opens. */
+function splitMapsPaste(text) {
+  var source = String(text || '').replace(/\r\n?/g, '\n');
+  var mapsUrl = '';
+
+  var rest = source.replace(URL_TOKEN, function (match) {
+    var candidate = trimUrl(match);
+    if (mapsUrl || !isMapsUrl(candidate)) return match;
+    mapsUrl = withProtocol(candidate);
+    return match.slice(candidate.length);
+  });
+
+  var address = rest
+    .replace(/\(\s*\)|\[\s*\]|<\s*>/g, ' ') // the brackets the link sat in
+    .split('\n')
+    .map(function (line) { return line.replace(/\s{2,}/g, ' ').trim(); })
+    .filter(Boolean)
+    .join(', ')
+    .replace(/^[\s,;|)\]]+/, '')
+    .trim();
+
+  // Lifting the link out of a sentence leaves its punctuation behind.
+  if (mapsUrl) address = address.replace(/[\s,;:.|(\[]+$/, '');
+  else address = address.replace(/[\s,;|(\[]+$/, '');
+
+  if (!address && mapsUrl) address = placeFromMapsUrl(mapsUrl);
+  return { address: address, mapsUrl: mapsUrl };
+}
+
+/* The pin opens the exact place when there is a link, and searches for
+   the typed address when there is not. */
+function mapsHref(address, mapsUrl) {
+  var link = trimUrl(String(mapsUrl || '').trim());
+  if (link && isMapsUrl(link)) return withProtocol(link);
+  var typed = String(address || '').trim();
+  return typed ? SEARCH + encodeURIComponent(typed) : '';
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    isMapsUrl: isMapsUrl,
+    splitMapsPaste: splitMapsPaste,
+    placeFromMapsUrl: placeFromMapsUrl,
+    mapsHref: mapsHref
+  };
+}
+</script>
+<!-- /inline:maps.js -->
+<!-- inline:plan-key.js -->
+<script>
+(function (root, factory) {
+  var api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else Object.assign(root, api);
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  function cleanPlanKey(value) {
+    var key = String(value || '').trim();
+    return /^[a-z0-9_-]{6,80}$/i.test(key) ? key : '';
+  }
+
+  /* She pastes whatever she has: the whole link from the other device, or
+     just the code out of it. */
+  function planKeyFromInput(value, baseUrl) {
+    var input = String(value || '').trim();
+    if (!input) return '';
+    var bare = cleanPlanKey(input);
+    if (bare) return bare;
+    try {
+      var url = new URL(input, baseUrl || 'https://example.test/');
+      return cleanPlanKey(url.searchParams.get('p'));
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function planCode(key) {
+    var clean = cleanPlanKey(key);
+    return clean ? clean.slice(-6).toUpperCase() : '';
+  }
+
+  function makePlanKey(random, now) {
+    var r = random || Math.random;
+    var stamp = (now || Date.now()).toString(36);
+    return 'lb' + stamp + r().toString(36).slice(2, 8);
+  }
+
+  return {
+    cleanPlanKey: cleanPlanKey,
+    planKeyFromInput: planKeyFromInput,
+    planCode: planCode,
+    makePlanKey: makePlanKey,
+  };
+});
+</script>
+<!-- /inline:plan-key.js -->
+<!-- inline:rtl.js -->
+<script>
+(function (root, factory) {
+  var api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else Object.assign(root, api);
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  var HEBREW = /[\u0590-\u05FF\uFB1D-\uFB4F]/;
+
+  function value(owner, key) {
+    return owner && owner.fields && owner.fields[key] ? owner.fields[key].v : '';
+  }
+
+  function gone(owner) {
+    return value(owner, 'removed') === '1';
+  }
+
+  function hasHebrew(text) {
+    return HEBREW.test(String(text == null ? '' : text));
+  }
+
+  function tagsSpeakHebrew(tags) {
+    return (tags || []).some(function (tag) {
+      return !gone(tag) && hasHebrew(value(tag, 'text'));
+    });
+  }
+
+  /* One Hebrew line anywhere in the day flips the whole day, so a
+     mixed itinerary reads in one direction instead of card by card. */
+  function dayDirection(day) {
+    if (!day) return 'ltr';
+
+    var own = ['name', 'highlights', 'tone'].some(function (key) {
+      return hasHebrew(value(day, key));
+    });
+    if (own || tagsSpeakHebrew(day.chips)) return 'rtl';
+
+    var inSlots = (day.slots || []).some(function (slot) {
+      if (gone(slot)) return false;
+      var text = ['time', 'title', 'detail'].some(function (key) {
+        return hasHebrew(value(slot, key));
+      });
+      return text || tagsSpeakHebrew(slot.tags);
+    });
+
+    return inSlots ? 'rtl' : 'ltr';
+  }
+
+  return {
+    hasHebrew: hasHebrew,
+    dayDirection: dayDirection,
+  };
+});
+</script>
+<!-- /inline:rtl.js -->
+<!-- inline:hearts.js -->
+<script>
+function liveHearts(slot) {
+  return (slot.hearts || []).filter(function (heart) {
+    return !heart.fields || !heart.fields.removed || heart.fields.removed.v !== '1';
+  });
+}
+
+function userHeart(slot, userId) {
+  return (slot.hearts || []).find(function (heart) {
+    return heart.id === userId;
+  });
+}
+
+function hasHeart(slot, userId) {
+  var heart = userHeart(slot, userId);
+  if (!heart) return false;
+  return !heart.fields || !heart.fields.removed || heart.fields.removed.v !== '1';
+}
+
+function toggleHeart(slot, user, now) {
+  now = now || Date.now();
+  if (!slot.hearts) slot.hearts = [];
+  var existing = userHeart(slot, user.id);
+  if (!existing) {
+    slot.hearts.push({
+      id: user.id,
+      created: now,
+      fields: {
+        name: { v: user.name || '', t: now },
+        removed: { v: '', t: now }
+      }
+    });
+    return true;
+  }
+  var on = hasHeart(slot, user.id);
+  existing.fields.removed = { v: on ? '1' : '', t: now };
+  if (user.name) existing.fields.name = { v: user.name, t: now };
+  return !on;
+}
+
+function isRemoved(owner) {
+  return !!(owner && owner.fields && owner.fields.removed && owner.fields.removed.v === '1');
+}
+
+function fieldValue(owner, key, fallback) {
+  if (!owner || !owner.fields || !owner.fields[key] || !owner.fields[key].v) return fallback || '';
+  return owner.fields[key].v;
+}
+
+function heartUsers(plan) {
+  var byId = {};
+  (plan.days || []).forEach(function (day) {
+    if (isRemoved(day)) return;
+    (day.slots || []).forEach(function (slot) {
+      if (isRemoved(slot)) return;
+      liveHearts(slot).forEach(function (heart) {
+        byId[heart.id] = {
+          id: heart.id,
+          name: fieldValue(heart, 'name', 'Someone')
+        };
+      });
+    });
+  });
+  return Object.keys(byId).map(function (id) { return byId[id]; }).sort(function (a, b) {
+    return a.name.localeCompare(b.name);
+  });
+}
+
+function heartList(plan, userId) {
+  var items = [];
+  (plan.days || []).forEach(function (day) {
+    if (isRemoved(day)) return;
+    (day.slots || []).forEach(function (slot) {
+      if (isRemoved(slot)) return;
+      var hearts = liveHearts(slot);
+      if (!hearts.length) return;
+      if (userId && !hearts.some(function (heart) { return heart.id === userId; })) return;
+      items.push({
+        dayId: day.id,
+        slotId: slot.id,
+        dayName: fieldValue(day, 'name', 'Untitled day'),
+        title: fieldValue(slot, 'title', 'Untitled activity'),
+        time: fieldValue(slot, 'time', ''),
+        hearts: hearts.map(function (heart) {
+          return { id: heart.id, name: fieldValue(heart, 'name', 'Someone') };
+        })
+      });
+    });
+  });
+  return items;
+}
+
+function needsName(user, isShared) {
+  return !!isShared && !(user && String(user.name || '').trim());
+}
+
+function saveUser(existing, name, makeId) {
+  var trimmed = String(name || '').replace(/\s+/g, ' ').trim();
+  if (!trimmed) return null;
+  return {
+    id: (existing && existing.id) || makeId(),
+    name: trimmed
+  };
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    liveHearts: liveHearts,
+    hasHeart: hasHeart,
+    toggleHeart: toggleHeart,
+    heartUsers: heartUsers,
+    heartList: heartList,
+    needsName: needsName,
+    saveUser: saveUser
+  };
+}
+</script>
+<!-- /inline:hearts.js -->
+<!-- inline:day-utils.js -->
+<script>
+/* A day nobody has typed into yet. "+ Add a day" reopens one of these
+   rather than stacking a second empty card on the cover. */
+function blankValue(owner, key) {
+  var field = owner && owner.fields && owner.fields[key];
+  return !field || !String(field.v || '').trim();
+}
+
+function stillHere(item) {
+  return !(item && item.fields && item.fields.removed && item.fields.removed.v === '1');
+}
+
+function isBlankDay(day) {
+  if (!day || !day.fields) return false;
+  var typed = ['name', 'highlights', 'tone', 'tip'].some(function (key) {
+    return !blankValue(day, key);
+  });
+  if (typed) return false;
+
+  var taggedText = (day.chips || []).filter(stillHere).some(function (chip) {
+    return !blankValue(chip, 'text');
+  });
+  if (taggedText) return false;
+
+  return !(day.slots || []).filter(stillHere).some(function (slot) {
+    var filled = ['time', 'title', 'detail', 'image', 'photoUrl', 'address', 'maps'].some(function (key) {
+      return !blankValue(slot, key);
+    });
+    return filled || (slot.hearts || []).filter(stillHere).length > 0;
+  });
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { isBlankDay: isBlankDay };
+}
+</script>
+<!-- /inline:day-utils.js -->
+<!-- inline:presence.js -->
+<script>
+/* Who else has this plan open right now. Each browser pings the shared
+   notification topic every few seconds; a ping that stops arriving ages out. */
+function notePeer(peers, peer, now) {
+  if (!peer || !peer.client) return peers;
+  peers[peer.client] = { name: String(peer.name || '').trim() || 'Someone', t: now || Date.now() };
+  return peers;
+}
+
+function dropPeer(peers, client) {
+  delete peers[client];
+  return peers;
+}
+
+function activePeers(peers, now, ttl) {
+  return Object.keys(peers || {})
+    .filter(function (client) { return (now - peers[client].t) <= ttl; })
+    .map(function (client) { return { client: client, name: peers[client].name }; })
+    .sort(function (a, b) { return a.name.localeCompare(b.name); });
+}
+
+/* The push service is blocked on some phones and some Wi-Fi, and then nobody
+   ever saw anybody. So who is here is also kept beside the plan, as a small
+   book of client → {n: name, t: when they last said so}. */
+function notePresenceBook(peers, book, options) {
+  var stamps = options.stamps || {};
+  Object.keys(book || {}).forEach(function (client) {
+    var entry = book[client];
+    if (!entry || client === options.self) return;
+    var known = Object.prototype.hasOwnProperty.call(stamps, client);
+    var previous = stamps[client];
+    var previousStamp = previous && typeof previous === 'object' ? previous.remote : previous;
+    // Remote wall clocks are not comparable. Remember when this browser first
+    // saw a stamp, and refresh that local time only when the stamp changes.
+    var spoke = known && previousStamp !== entry.t;
+    var seen = (!known || spoke) ? options.now :
+      (previous && typeof previous === 'object' ? previous.seen : 0);
+    stamps[client] = { remote: entry.t, seen: seen };
+    if (!known || spoke || (options.now - seen) <= options.ttl) {
+      notePeer(peers, { client: client, name: entry.n }, options.now);
+    }
+  });
+  return peers;
+}
+
+/* What to write back: everyone who was here recently, plus me. */
+function freshBook(book, options) {
+  var out = {};
+  var stamps = options.stamps || {};
+  Object.keys(book || {}).forEach(function (client) {
+    var entry = book[client];
+    if (client === options.self) return;
+    var observed = stamps[client];
+    var seen = observed && typeof observed === 'object' ? observed.seen : 0;
+    var recent = seen
+      ? (options.now - seen) <= options.keep
+      : entry && Math.abs(options.now - (entry.t || 0)) <= options.keep;
+    if (entry && recent) out[client] = entry;
+  });
+  out[options.self] = { n: options.name || 'Someone', t: options.now };
+  return out;
+}
+
+function presenceLabel(peers, now, ttl) {
+  var here = activePeers(peers, now, ttl);
+  if (!here.length) return 'Only you';
+  if (here.length === 1) return here[0].name + ' is here';
+  if (here.length === 2) return here[0].name + ' and ' + here[1].name + ' are here';
+  return here.length + ' people here';
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    notePeer: notePeer,
+    dropPeer: dropPeer,
+    activePeers: activePeers,
+    presenceLabel: presenceLabel,
+    notePresenceBook: notePresenceBook,
+    freshBook: freshBook
+  };
+}
+</script>
+<!-- /inline:presence.js -->
+<!-- inline:activities.js -->
+<script>
+var CLOCK = '(?:[01]?\\d|2[0-3])[:.]\\d{2}(?:\\s*(?:am|pm))?';
+var WORD_TIME = 'morning|midday|noon|afternoon|evening|night|בוקר|צהריים|אחר הצהריים|אחה"צ|ערב|לילה';
+var DAY_TIME = '(?:' + WORD_TIME + '|' + CLOCK + ')';
+var TIME_ONLY = new RegExp('^' + DAY_TIME + '$', 'i');
+var TIME_PREFIX = new RegExp('^(' + DAY_TIME + ')(?:\\s*[-–—:|]\\s*|\\s+)(.+)$', 'i');
+var TITLE_MAX = 70;
+var BULLET = /^(?:[-*•·‣]|\d{1,2}[.)])\s+/;
+var ADDRESS_LABEL = /^(?:כתובת|address)[^:]{0,24}:\s*(.+)$/i;
+var LABELLED = /^[^:]{1,30}:\s*(.+)$/;
+/* A street, an optional house number, a postcode and a town: the shape
+   of something a map can find. */
+var STREET = /^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ'’.\- ]*?(?:\s\d+[A-Za-z]?)?\s*,\s*\d{4,5}\s+[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ'’.\- ]*$/;
+
+/* Text copied from Google Maps drags its own footer along. */
+function stripClutter(text) {
+  return String(text || '')
+    .replace(/map data\s*©\s*\d{4}\s*google/gi, ' ')
+    .replace(/\bterms\s*\d+\s*(?:m|km|ft|mi)\b/gi, ' ')
+    .replace(/\bkeyboard shortcuts\b/gi, ' ')
+    .replace(/[ \t]{2,}/g, ' ');
+}
+
+/* A chat answer marks up its links. The name is what she reads on the
+   card, and a shop's own website is not a place on a map. */
+function unwrapLinks(text) {
+  return String(text || '').replace(/\[([^\]\n]+)\]\(\s*[^()\s]*\s*\)/g, '$1');
+}
+
+/* Some answers bullet their section titles instead of marking them up:
+   a bullet alone between two blank lines titles the text under it. */
+function markBulletHeadings(text) {
+  return String(text || '').replace(
+    /(^|\n[ \t]*\n)[ \t]*(?:[-*•·‣]|\d{1,2}[.)])[ \t]+([^\n#][^\n]*?)[ \t]*(?=\n[ \t]*\n)/g,
+    '$1## $2'
+  );
+}
+
+/* Text copied off a rendered page arrives with the line breaks gone, so
+   a sentence can run straight into the next one: "ובנוחות.כתובת". Give
+   the space back. Where a heading ran into the body ("המזוודותאת") there
+   is nothing to key on, and guessing would cut a word in half. */
+function unglueSentences(text) {
+  return String(text || '').replace(/([a-zà-öø-ÿ\u0590-\u05FF][.!?…])(?=[A-Z\u0590-\u05FF])/g, '$1 ');
+}
+
+function isPasteArtifact(line) {
+  return /^\[(?:מדיה עשירה|rich media)[^\]]*(?:לא נכללה|not included)[^\]]*\]$/i.test(line) ||
+    /(?:האם תרצי|האם תרצה|would you like me to)/i.test(line);
+}
+
+/* A chat answer often bullets its own headings ("* ## החניה"): the
+   bullet is decoration, the heading is what marks the card. */
+function cleanLines(text) {
+  return String(text || '')
+    .replace(/\r\n?/g, '\n')
+    .split('\n')
+    .map(function (line) {
+      return line.trim().replace(/^(?:[-*•·‣]|\d{1,2}[.)])\s+(?=#{1,6}\s)/, '');
+    })
+    .filter(function (line) { return line && !isPasteArtifact(line); });
+}
+
+/* Split on sentence punctuation, but only when a space follows, so
+   "1.5 km" and "Militärstrasse 76." behave differently. */
+function splitSentences(text) {
+  var out = [];
+  var current = '';
+  for (var i = 0; i < text.length; i++) {
+    var ch = text.charAt(i);
+    current += ch;
+    if ('.!?…'.indexOf(ch) === -1) continue;
+    var next = text.charAt(i + 1);
+    if (next === '' || /\s/.test(next)) {
+      out.push(current.trim());
+      current = '';
+    }
+  }
+  if (current.trim()) out.push(current.trim());
+  return out.filter(Boolean);
+}
+
+/* Keep titles scannable: the opening clause is the title and the
+   remainder of a long sentence becomes the detail. */
+function splitTitle(text) {
+  if (text.length <= TITLE_MAX) return { title: text, detail: '' };
+
+  var colon = text.indexOf(':');
+  if (colon > 0 && colon <= 40) {
+    return { title: text.slice(0, colon).trim(), detail: text.slice(colon + 1).trim() };
+  }
+
+  var cut = -1;
+  [',', '،', ';', ' — ', ' – ', ' - '].forEach(function (mark) {
+    var at = text.indexOf(mark);
+    if (at > 0 && at <= TITLE_MAX && (cut === -1 || at < cut)) cut = at;
+  });
+  if (cut === -1) {
+    cut = text.lastIndexOf(' ', TITLE_MAX);
+    if (cut <= 0) cut = TITLE_MAX;
+  }
+  return {
+    title: text.slice(0, cut).trim(),
+    detail: text.slice(cut).replace(/^[\s,،;–—-]+/, '').trim()
+  };
+}
+
+function parseLine(line) {
+  var match = line.match(TIME_PREFIX);
+  var time = match ? match[1] : '';
+  var body = match ? match[2] : line;
+  var split = splitTitle(body);
+  return { time: time, title: split.title, detail: split.detail, address: '' };
+}
+
+/* An address she wrote out belongs in the address row, not in the middle
+   of the text. Anything after the first one stays where she put it. */
+function addressIn(clause) {
+  var text = String(clause || '').trim().replace(/[.,;:]+$/, '');
+  if (!text) return '';
+  var labelled = text.match(ADDRESS_LABEL);
+  if (labelled) return labelled[1].trim().replace(/[.,;]+$/, '');
+  var named = text.match(LABELLED);
+  if (named && STREET.test(named[1].trim())) return named[1].trim();
+  return STREET.test(text) ? text : '';
+}
+
+function takeAddress(card) {
+  var address = '';
+  var lines = String(card.detail || '').split('\n').map(function (line) {
+    var kept = splitSentences(line).filter(function (clause) {
+      if (address) return true;
+      address = addressIn(clause);
+      return !address;
+    });
+    return kept.join(' ').trim();
+  });
+  card.detail = lines.filter(Boolean).join('\n');
+  card.address = address;
+  return card;
+}
+
+/* Prose makes one card: its opening sentence names it and everything
+   else is the detail. */
+function parseProse(lines) {
+  var sentences = splitSentences(lines[0]);
+  var card = parseLine(sentences.length > 1 ? sentences[0] : lines[0]);
+  var tail = [card.detail, sentences.slice(1).join(' ')].filter(Boolean).join(' ');
+  card.detail = [tail].concat(lines.slice(1)).filter(Boolean).join('\n');
+  return card;
+}
+
+function parseSection(section) {
+  var lines = cleanLines(section);
+  if (!lines.length) return null;
+  if (TIME_ONLY.test(lines[0]) && lines.length > 1) {
+    return {
+      time: lines[0],
+      title: lines[1],
+      detail: lines.slice(2).join('\n'),
+      address: ''
+    };
+  }
+  return parseProse(lines);
+}
+
+function parseMarkdownSections(lines) {
+  var cards = [];
+  var current = null;
+  lines.forEach(function (line) {
+    var heading = line.match(/^#{1,6}\s+(.+?)\s*#*$/);
+    if (heading) {
+      if (current) cards.push(current);
+      current = { time: '', title: heading[1].trim(), detail: '', address: '' };
+      return;
+    }
+    if (!current) return;
+    current.detail = [current.detail, line].filter(Boolean).join('\n');
+  });
+  if (current) cards.push(current);
+  return cards;
+}
+
+function isItemLine(line) {
+  return BULLET.test(line) || TIME_PREFIX.test(line);
+}
+
+/* A line that reads like a heading rather than a sentence. */
+function isHeadline(line) {
+  return line.length <= TITLE_MAX && !/[.!?…]$/.test(line);
+}
+
+/* Bullets and times mark where one activity ends and the next begins;
+   the plain lines between them belong to the activity above. */
+function parseItemLines(lines) {
+  var cards = [];
+  var lead = [];
+  lines.forEach(function (line) {
+    if (isItemLine(line)) {
+      cards.push(parseProse([line.replace(BULLET, '')]));
+      return;
+    }
+    if (!cards.length) {
+      lead.push(line);
+      return;
+    }
+    var card = cards[cards.length - 1];
+    card.detail = [card.detail, line].filter(Boolean).join('\n');
+  });
+  if (lead.length) cards.unshift(parseProse(lead));
+  return cards;
+}
+
+/* Without blank lines between them, only a real marker splits a paste
+   into several cards. Prose on its own stays one card, because a pasted
+   paragraph is one activity described at length, not five activities. */
+function parseFlow(lines) {
+  if (TIME_ONLY.test(lines[0]) && lines.length > 1) return [parseSection(lines.join('\n'))];
+  if (lines.some(isItemLine)) return parseItemLines(lines);
+  if (lines.every(isHeadline)) return lines.map(parseLine);
+  return [parseProse(lines)];
+}
+
+function parseFullDay(text) {
+  var normalized = stripClutter(
+    unglueSentences(markBulletHeadings(unwrapLinks(String(text || '').replace(/\r\n?/g, '\n'))))
+  ).trim();
+  if (!normalized) return [];
+  var sections = normalized.split(/\n\s*\n+/).filter(function (section) { return section.trim(); });
+  var allLines = cleanLines(normalized);
+  if (!allLines.length) return [];
+
+  var cards = allLines.some(function (line) { return /^#{1,6}\s+/.test(line); })
+    ? parseMarkdownSections(allLines)
+    : sections.length > 1
+      ? sections.map(parseSection).filter(Boolean)
+      : parseFlow(allLines);
+
+  return cards.map(takeAddress);
+}
+
+function isBlankActivity(slot) {
+  if (!slot || !slot.fields) return true;
+  var hasText = ['time', 'title', 'detail', 'image', 'photoUrl', 'address', 'maps'].some(function (key) {
+    var field = slot.fields[key];
+    return field && String(field.v || '').trim();
+  });
+  if (hasText) return false;
+  return !(slot.hearts || []).some(function (heart) {
+    return !(heart.fields && heart.fields.removed && heart.fields.removed.v === '1');
+  });
+}
+
+function orderValue(slot) {
+  var raw = slot && slot.fields && slot.fields.order && slot.fields.order.v;
+  var number = Number(raw);
+  return raw !== '' && Number.isFinite(number) ? number : null;
+}
+
+function orderedSlots(slots) {
+  return (slots || []).slice().sort(function (a, b) {
+    var aOrder = orderValue(a);
+    var bOrder = orderValue(b);
+    if (aOrder !== null && bOrder !== null && aOrder !== bOrder) return aOrder - bOrder;
+    if (aOrder !== null && bOrder === null) return -1;
+    if (aOrder === null && bOrder !== null) return 1;
+    return (a.created || 0) - (b.created || 0) || (a.id < b.id ? -1 : 1);
+  });
+}
+
+function moveSlotIds(ids, id, direction) {
+  var out = (ids || []).slice();
+  var from = out.indexOf(id);
+  var to = from + direction;
+  if (from < 0 || to < 0 || to >= out.length) return out;
+  var moved = out.splice(from, 1)[0];
+  out.splice(to, 0, moved);
+  return out;
+}
+
+/* Gaps of ten leave room for a card that arrives from the other
+   browser mid-drag. */
+function orderValues(ids) {
+  var out = {};
+  (ids || []).forEach(function (id, index) {
+    out[id] = String((index + 1) * 10);
+  });
+  return out;
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    parseFullDay: parseFullDay,
+    isBlankActivity: isBlankActivity,
+    orderedSlots: orderedSlots,
+    moveSlotIds: moveSlotIds,
+    orderValues: orderValues
+  };
+}
+</script>
+<!-- /inline:activities.js -->
+<!-- inline:activity-tags.js -->
+<script>
+(function (root, factory) {
+  var api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else Object.assign(root, api);
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  function value(owner, key) {
+    return owner && owner.fields && owner.fields[key] ? owner.fields[key].v : '';
+  }
+
+  function visibleTags(tags) {
+    return (tags || []).filter(function (tag) {
+      return value(tag, 'removed') !== '1';
+    });
+  }
+
+  function activityTagTexts(slot) {
+    return visibleTags(slot && slot.tags).map(function (tag) {
+      return String(value(tag, 'text') || '').trim();
+    }).filter(Boolean);
+  }
+
+  function canAddActivityTag(tags) {
+    return visibleTags(tags).length === 0;
+  }
+
+  /* A day carries its own tags. The tags on its activity cards belong
+     to those cards alone and never climb up to the day. */
+  function dayTagTexts(day) {
+    var texts = visibleTags(day && day.chips).map(function (tag) {
+      return String(value(tag, 'text') || '').trim();
+    }).filter(Boolean);
+
+    var seen = {};
+    return texts.filter(function (text) {
+      var key = text.toLocaleLowerCase();
+      if (seen[key]) return false;
+      seen[key] = true;
+      return true;
+    });
+  }
+
+  return {
+    activityTagTexts: activityTagTexts,
+    canAddActivityTag: canAddActivityTag,
+    dayTagTexts: dayTagTexts,
+  };
+});
+</script>
+<!-- /inline:activity-tags.js -->
+<!-- inline:docs.js -->
+<script>
+var MAX_BYTES = 900000;   // one file has to fit in its own slot in the store
+
+function newDoc(makeId, now) {
+  now = now || Date.now();
+  return {
+    id: makeId(),
+    created: now,
+    fields: {
+      name: { v: '', t: now },
+      description: { v: '', t: now },
+      data: { v: '', t: now },
+      mime: { v: '', t: now },
+      kind: { v: '', t: now }
+    }
+  };
+}
+
+function fieldVal(owner, key) {
+  return (owner && owner.fields && owner.fields[key] && owner.fields[key].v) || '';
+}
+
+function docKind(doc) {
+  var kind = fieldVal(doc, 'kind');
+  if (kind === 'image' || kind === 'file') return kind;
+  return fieldVal(doc, 'mime').indexOf('image/') === 0 ? 'image' : 'file';
+}
+
+function tooLarge(bytes) {
+  return Number(bytes) > MAX_BYTES;
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    MAX_BYTES: MAX_BYTES,
+    newDoc: newDoc,
+    docKind: docKind,
+    tooLarge: tooLarge
+  };
+}
+</script>
+<!-- /inline:docs.js -->
+<!-- inline:weather.js -->
+<script>
+var DEFAULT_PLACE = { name: 'Lauterbrunnen', latitude: 46.593, longitude: 7.908 };
+var FORECAST_DAYS = 16;
+var CACHE_TTL_MS = 3 * 60 * 60 * 1000;
+var MONTHS = {
+  jan: 1, january: 1,
+  feb: 2, february: 2,
+  mar: 3, march: 3,
+  apr: 4, april: 4,
+  may: 5,
+  jun: 6, june: 6,
+  jul: 7, july: 7,
+  aug: 8, august: 8,
+  sep: 9, sept: 9, september: 9,
+  oct: 10, october: 10,
+  nov: 11, november: 11,
+  dec: 12, december: 12
+};
+
+function pad(n) {
+  return n < 10 ? '0' + n : String(n);
+}
+
+function toIso(y, m, d) {
+  return y + '-' + pad(m) + '-' + pad(d);
+}
+
+function addIsoDays(iso, n) {
+  var parts = String(iso).split('-').map(Number);
+  var dt = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2] + n));
+  return toIso(dt.getUTCFullYear(), dt.getUTCMonth() + 1, dt.getUTCDate());
+}
+
+function yearOf(iso) {
+  return Number(String(iso).slice(0, 4));
+}
+
+function monthNum(token) {
+  var key = String(token || '').toLowerCase().replace(/\./g, '');
+  return MONTHS[key] || 0;
+}
+
+function parseTripDates(text, todayIso) {
+  var raw = String(text || '').trim();
+  if (!raw) return null;
+  todayIso = todayIso || toIso(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate());
+  var year = yearOf(todayIso);
+
+  var iso = raw.match(/(\d{4}-\d{2}-\d{2})(?:\s*(?:to|–|—|-)\s*(\d{4}-\d{2}-\d{2}))?/);
+  if (iso) {
+    return { start: iso[1], end: iso[2] || iso[1] };
+  }
+
+  var mdRange = raw.match(
+    /\b([A-Za-z]{3,9})\s+(\d{1,2})(?:st|nd|rd|th)?\s*(?:to|–|—|-)\s*(\d{1,2})(?:st|nd|rd|th)?(?:\s*,?\s*(\d{4}))?\b/i
+  );
+  if (mdRange) {
+    var m1 = monthNum(mdRange[1]);
+    if (m1) {
+      var y1 = Number(mdRange[4] || year);
+      return { start: toIso(y1, m1, Number(mdRange[2])), end: toIso(y1, m1, Number(mdRange[3])) };
+    }
+  }
+
+  var dmRange = raw.match(
+    /\b(\d{1,2})(?:st|nd|rd|th)?\s*(?:to|–|—|-)\s*(\d{1,2})(?:st|nd|rd|th)?\s+([A-Za-z]{3,9})(?:\s*,?\s*(\d{4}))?\b/i
+  );
+  if (dmRange) {
+    var m2 = monthNum(dmRange[3]);
+    if (m2) {
+      var y2 = Number(dmRange[4] || year);
+      return { start: toIso(y2, m2, Number(dmRange[1])), end: toIso(y2, m2, Number(dmRange[2])) };
+    }
+  }
+
+  var dotted = raw.match(/\b(\d{1,2})\.(\d{1,2})(?:\.(\d{2,4}))?\s*(?:to|–|—|-)\s*(\d{1,2})\.(\d{1,2})(?:\.(\d{2,4}))?\b/);
+  if (dotted) {
+    var yStart = dotted[3] ? expandYear(dotted[3], year) : year;
+    var yEnd = dotted[6] ? expandYear(dotted[6], year) : yStart;
+    return {
+      start: toIso(yStart, Number(dotted[2]), Number(dotted[1])),
+      end: toIso(yEnd, Number(dotted[5]), Number(dotted[4]))
+    };
+  }
+
+  var singleNamed = raw.match(
+    /\b(\d{1,2})(?:st|nd|rd|th)?\s+([A-Za-z]{3,9})(?:\s*,?\s*(\d{4}))?\b|\b([A-Za-z]{3,9})\s+(\d{1,2})(?:st|nd|rd|th)?(?:\s*,?\s*(\d{4}))?\b/i
+  );
+  if (singleNamed) {
+    var month = monthNum(singleNamed[2] || singleNamed[4]);
+    var day = Number(singleNamed[1] || singleNamed[5]);
+    var y = Number(singleNamed[3] || singleNamed[6] || year);
+    if (month && day) {
+      var isoDay = toIso(y, month, day);
+      return { start: isoDay, end: isoDay };
+    }
+  }
+
+  return null;
+}
+
+function expandYear(token, fallback) {
+  var n = Number(token);
+  if (!n) return fallback;
+  if (n < 100) return 2000 + n;
+  return n;
+}
+
+function weatherFromCode(code) {
+  var n = Number(code);
+  if (n === 0) return { emoji: '☀️', label: 'Clear' };
+  if (n === 1) return { emoji: '🌤️', label: 'Mostly clear' };
+  if (n === 2) return { emoji: '⛅', label: 'Partly cloudy' };
+  if (n === 3) return { emoji: '☁️', label: 'Overcast' };
+  if (n === 45 || n === 48) return { emoji: '🌫️', label: 'Fog' };
+  if (n >= 51 && n <= 57) return { emoji: '🌦️', label: 'Drizzle' };
+  if (n >= 61 && n <= 67) return { emoji: '🌧️', label: 'Rain' };
+  if (n >= 71 && n <= 77) return { emoji: '🌨️', label: 'Snow' };
+  if (n >= 80 && n <= 82) return { emoji: '🌦️', label: 'Showers' };
+  if (n >= 85 && n <= 86) return { emoji: '🌨️', label: 'Snow' };
+  if (n >= 95 && n <= 99) return { emoji: '⛈️', label: 'Thunderstorm' };
+  return { emoji: '🌡️', label: 'Weather' };
+}
+
+function buildOpenMeteoUrl(opts) {
+  opts = opts || {};
+  var params = [
+    'latitude=' + opts.latitude,
+    'longitude=' + opts.longitude,
+    'daily=' + [
+      'weather_code',
+      'temperature_2m_max',
+      'temperature_2m_min',
+      'precipitation_probability_max'
+    ].join(','),
+    'timezone=' + encodeURIComponent('Europe/Zurich')
+  ];
+  if (opts.start) params.push('start_date=' + opts.start);
+  if (opts.end) params.push('end_date=' + opts.end);
+  return 'https://api.open-meteo.com/v1/forecast?' + params.join('&');
+}
+
+function buildGeocodeUrl(name) {
+  return 'https://geocoding-api.open-meteo.com/v1/search?name=' +
+    encodeURIComponent(String(name || '').trim()) +
+    '&count=1&language=en&format=json';
+}
+
+function clipToForecast(start, end, todayIso, horizonDays) {
+  horizonDays = horizonDays || FORECAST_DAYS;
+  var windowEnd = addIsoDays(todayIso, horizonDays - 1);
+  if (end < todayIso) return { available: false, reason: 'past' };
+  if (start > windowEnd) return { available: false, reason: 'too_far' };
+  var clipStart = start < todayIso ? todayIso : start;
+  var clipEnd = end > windowEnd ? windowEnd : end;
+  return { available: true, start: clipStart, end: clipEnd, reason: 'ok' };
+}
+
+function fallbackRange(todayIso) {
+  return { start: todayIso, end: addIsoDays(todayIso, 6), usedFallback: true };
+}
+
+function daysFromDaily(daily) {
+  daily = daily || {};
+  var times = daily.time || [];
+  var codes = daily.weather_code || daily.weathercode || [];
+  var highs = daily.temperature_2m_max || [];
+  var lows = daily.temperature_2m_min || [];
+  var rain = daily.precipitation_probability_max || [];
+  return times.map(function (date, i) {
+    var mapped = weatherFromCode(codes[i]);
+    return {
+      date: date,
+      high: Math.round(Number(highs[i])),
+      low: Math.round(Number(lows[i])),
+      precip: rain[i] == null || rain[i] === '' ? null : Math.round(Number(rain[i])),
+      label: mapped.label,
+      emoji: mapped.emoji
+    };
+  });
+}
+
+function readWeatherCache(payload, now) {
+  if (!payload || !payload.t) return null;
+  if (now - payload.t > CACHE_TTL_MS) return null;
+  return payload;
+}
+
+function formatDayLabel(iso) {
+  var parts = String(iso).split('-').map(Number);
+  var dt = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
+  return dt.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    DEFAULT_PLACE: DEFAULT_PLACE,
+    FORECAST_DAYS: FORECAST_DAYS,
+    CACHE_TTL_MS: CACHE_TTL_MS,
+    parseTripDates: parseTripDates,
+    weatherFromCode: weatherFromCode,
+    buildOpenMeteoUrl: buildOpenMeteoUrl,
+    buildGeocodeUrl: buildGeocodeUrl,
+    clipToForecast: clipToForecast,
+    fallbackRange: fallbackRange,
+    daysFromDaily: daysFromDaily,
+    readWeatherCache: readWeatherCache,
+    addIsoDays: addIsoDays,
+    formatDayLabel: formatDayLabel,
+    toIso: toIso
+  };
+}
+</script>
+<!-- /inline:weather.js -->
+<!-- inline:tasks.js -->
+<script>
+function newTask(makeId, now) {
+  now = now || Date.now();
+  return {
+    id: makeId(),
+    created: now,
+    fields: {
+      text: { v: '', t: now },
+      done: { v: '', t: now }
+    }
+  };
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { newTask: newTask };
+}
+</script>
+<!-- /inline:tasks.js -->
+<!-- inline:sync-limits.js -->
+<script>
+/* The shared store rejects anything past about a megabyte, so a plan that
+   grows past it stops saving. Catch that here instead of losing the edit. */
+(function (root, factory) {
+  var api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else Object.assign(root, api);
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  var SYNC_LIMIT = 950000;  // the store starts refusing somewhere above 1MB
+  var WARN_AT = 0.8;        // speak up before the wall, not at it
+
+  function byteLength(text) {
+    var value = String(text == null ? '' : text);
+    if (typeof TextEncoder !== 'undefined') return new TextEncoder().encode(value).length;
+    return Buffer.byteLength(value, 'utf8');
+  }
+
+  function tooBigToSync(text, limit) {
+    return byteLength(text) > (limit || SYNC_LIMIT);
+  }
+
+  function photoCount(plan) {
+    var photos = 0;
+    ((plan && plan.days) || []).forEach(function (day) {
+      (day.slots || []).forEach(function (slot) {
+        if (slot.fields && slot.fields.image && slot.fields.image.v) photos++;
+      });
+    });
+    ((plan && plan.docs) || []).forEach(function (doc) {
+      if (doc.fields && doc.fields.data && doc.fields.data.v) photos++;
+    });
+    return photos;
+  }
+
+  /* '' when there is nothing to say, otherwise plain words for a toast. */
+  function sizeWarning(text, limit) {
+    var cap = limit || SYNC_LIMIT;
+    var bytes = byteLength(text);
+    if (bytes > cap) {
+      return 'Too big to save. Remove a photo or two, then your latest edits will sync.';
+    }
+    if (bytes > cap * WARN_AT) {
+      return 'This plan is nearly full. Remove a photo or two to keep saving.';
+    }
+    return '';
+  }
+
+  return {
+    SYNC_LIMIT: SYNC_LIMIT,
+    byteLength: byteLength,
+    tooBigToSync: tooBigToSync,
+    photoCount: photoCount,
+    sizeWarning: sizeWarning,
+  };
+});
+</script>
+<!-- /inline:sync-limits.js -->
+<!-- inline:photo-store.js -->
+<script>
+/* Photos used to live inside the plan, which is why a few of them could fill
+   it up and stop every save. Now the plan only carries a short reference and
+   each photo sits under its own key. */
+(function (root, factory) {
+  var api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else Object.assign(root, api);
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  var REF_PREFIX = 'ref:';
+  var KEY_PREFIX = 'lbp-';
+
+  function isRef(value) {
+    return String(value || '').indexOf(REF_PREFIX) === 0;
+  }
+
+  function isInline(value) {
+    return String(value || '').indexOf('data:') === 0;
+  }
+
+  function isRemoteImageUrl(value) {
+    try {
+      var url = new URL(String(value || '').trim());
+      return url.protocol === 'http:' || url.protocol === 'https:';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function refKey(value) {
+    return isRef(value) ? String(value).slice(REF_PREFIX.length) : '';
+  }
+
+  function asRef(key) {
+    return REF_PREFIX + key;
+  }
+
+  /* Keys are never reused, so one person replacing a photo can't overwrite
+     another person's. */
+  function newMediaKey(random, now) {
+    var r = random || Math.random;
+    var stamp = (now || Date.now()).toString(36);
+    return KEY_PREFIX + stamp + r().toString(36).slice(2, 10);
+  }
+
+  function cacheKey(key) {
+    return 'lbmedia-' + key;
+  }
+
+  /* Every photo still stored the old way, so a plan saved before this change
+     can be moved out piece by piece. */
+  function inlineMedia(plan) {
+    var found = [];
+    ((plan && plan.days) || []).forEach(function (day) {
+      (day.slots || []).forEach(function (slot) {
+        if (slot.fields && isInline(slot.fields.image && slot.fields.image.v)) {
+          found.push({ item: slot, key: 'image' });
+        }
+      });
+    });
+    ((plan && plan.docs) || []).forEach(function (doc) {
+      if (doc.fields && isInline(doc.fields.data && doc.fields.data.v)) {
+        found.push({ item: doc, key: 'data' });
+      }
+    });
+    return found;
+  }
+
+  return {
+    REF_PREFIX: REF_PREFIX,
+    isRef: isRef,
+    isInline: isInline,
+    isRemoteImageUrl: isRemoteImageUrl,
+    refKey: refKey,
+    asRef: asRef,
+    newMediaKey: newMediaKey,
+    cacheKey: cacheKey,
+    inlineMedia: inlineMedia,
+  };
+});
+</script>
+<!-- /inline:photo-store.js -->
+<script>
+var STORE = 'https://textdb.dev/api/data/';   // holds the shared plan
+var SIGNAL = 'https://ntfy.sh/';              // pushes "someone just edited" to the other browser
+var LS_PLAN = 'lauterbrunnen-plan';
+var LS_ID = 'lauterbrunnen-plan-key';
+var LS_KNOWN = 'lauterbrunnen-plan-keys';   // every plan this device has opened
+var LS_USER = 'lauterbrunnen-user';
+var POLL_MS = 6000;                           // backstop if the push stream drops
+var PRESENCE_MS = 12000;                      // how often we say "still here"
+var PRESENCE_TTL = 35000;                     // silence longer than this means gone
+var PRESENCE_KEEP = 300000;                   // how long a name stays in the shared list
+var LS_CLIENT = 'lauterbrunnen-client';
+/* One id per device, not per page load, or a refresh looks like company. */
+var CLIENT = (function () {
+  try {
+    var saved = localStorage.getItem(LS_CLIENT);
+    if (saved) return saved;
+  } catch (e) {}
+  var made = Math.random().toString(36).slice(2, 10);
+  try { localStorage.setItem(LS_CLIENT, made); } catch (e) {}
+  return made;
+})();
+
+var COVER_FIELDS = ['kicker', 'title', 'tagline', 'description'];
+
+var planKey = null;
+var plan = newPlan();
+var dirty = false;
+var syncing = false;
+var saveTimer = null;
+var stream = null;
+var heartFilter = '';
+var warnedTooLarge = false;
+var me = loadUser();
+var peers = {};
+var presenceStamps = {};
+var presenceTimer = null;
+var connection = { state: '', text: '' };
+
+/* ─── Plan model ─────────────────────────────────────────────
+   Every text lives in a {v: value, t: edited-at} cell, so two
+   people editing different fields merge instead of overwriting.
+───────────────────────────────────────────────────────────── */
+
+function cell(v, t) { return { v: v || '', t: t || 0 }; }
+
+function uid(prefix) {
+  return prefix + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+}
+
+function newPlan() {
+  return {
+    fields: { kicker: cell(''), title: cell('Lauterbrunnen'), tagline: cell(''), description: cell('') },
+    days: [newDay()],
+    docs: [],
+    tasks: []
+  };
+}
+
+function newDay() {
+  return {
+    id: uid('d'),
+    created: Date.now(),
+    fields: { name: cell(''), highlights: cell(''), tone: cell(''), tip: cell('') },
+    chips: [],
+    slots: []
+  };
+}
+
+function newSlot() {
+  return {
+    id: uid('s'),
+    created: Date.now(),
+    fields: {
+      time: cell(''), title: cell(''), detail: cell(''), image: cell(''), photoUrl: cell(''),
+      address: cell(''), maps: cell(''), order: cell('10')
+    },
+    hearts: [],
+    tags: []
+  };
+}
+
+function newChip() {
+  return { id: uid('c'), created: Date.now(), fields: { text: cell('') } };
+}
+
+function get(owner, key) {
+  return (owner.fields[key] || cell('')).v;
+}
+
+function set(owner, key, value) {
+  owner.fields[key] = cell(value, Date.now());
+}
+
+/* Removal is a dated flag, not a splice — otherwise the other
+   browser would merge the day straight back in. */
+function removed(owner) { return get(owner, 'removed') === '1'; }
+function live(list) { return (list || []).filter(function (item) { return !removed(item); }); }
+
+function mergeFields(mine, theirs) {
+  var out = {};
+  var keys = {};
+  Object.keys(mine || {}).forEach(function (k) { keys[k] = 1; });
+  Object.keys(theirs || {}).forEach(function (k) { keys[k] = 1; });
+  Object.keys(keys).forEach(function (k) {
+    var a = (mine || {})[k];
+    var b = (theirs || {})[k];
+    if (!a) { out[k] = b; return; }
+    if (!b) { out[k] = a; return; }
+    out[k] = (b.t > a.t) ? b : a;
+  });
+  return out;
+}
+
+/* Union two lists of {id, created, fields}: shared ids merge field
+   by field, ids only one side has are kept, order stays by creation. */
+function mergeList(mine, theirs, mergeItem) {
+  var byId = {};
+  var order = [];
+  [mine || [], theirs || []].forEach(function (list) {
+    list.forEach(function (item) {
+      if (!item || !item.id) return;
+      if (byId[item.id]) {
+        byId[item.id] = mergeItem(byId[item.id], item);
+      } else {
+        byId[item.id] = item;
+        order.push(item.id);
+      }
+    });
+  });
+  return order.map(function (id) { return byId[id]; }).sort(function (a, b) {
+    return (a.created || 0) - (b.created || 0) || (a.id < b.id ? -1 : 1);
+  });
+}
+
+function mergeSimple(a, b) {
+  return { id: a.id, created: Math.min(a.created || 0, b.created || 0), fields: mergeFields(a.fields, b.fields) };
+}
+
+function mergeSlot(a, b) {
+  return {
+    id: a.id,
+    created: Math.min(a.created || 0, b.created || 0),
+    fields: mergeFields(a.fields, b.fields),
+    hearts: mergeList(a.hearts || [], b.hearts || [], mergeSimple),
+    tags: mergeList(a.tags || [], b.tags || [], mergeSimple)
+  };
+}
+
+function mergeDay(a, b) {
+  return {
+    id: a.id,
+    created: Math.min(a.created || 0, b.created || 0),
+    fields: mergeFields(a.fields, b.fields),
+    chips: mergeList(a.chips, b.chips, mergeSimple),
+    slots: mergeList(a.slots, b.slots, mergeSlot)
+  };
+}
+
+function mergePlans(mine, theirs) {
+  if (!theirs || !Array.isArray(theirs.days)) return mine;
+  return {
+    fields: mergeFields(mine.fields, theirs.fields),
+    days: mergeList(mine.days, theirs.days.map(upgradeDay), mergeDay),
+    docs: mergeList(mine.docs || [], theirs.docs || [], mergeSimple),
+    tasks: mergeList(mine.tasks || [], theirs.tasks || [], mergeSimple)
+  };
+}
+
+/* Plans saved before days held their own card lists. */
+function foldTone(day) {
+  if (!day || !day.fields) return day;
+  var tone = day.fields.tone && String(day.fields.tone.v || '').trim();
+  if (!tone) return day;
+  var highlights = day.fields.highlights && String(day.fields.highlights.v || '').trim();
+  if (!highlights) {
+    day.fields.highlights = day.fields.tone;
+  } else if (highlights.indexOf(tone) === -1) {
+    day.fields.highlights = {
+      v: highlights + '\n' + tone,
+      t: Math.max(day.fields.highlights.t || 0, day.fields.tone.t || 0)
+    };
+  }
+  day.fields.tone = { v: '', t: Date.now() };
+  return day;
+}
+
+function upgradeDay(day) {
+  if (!day || !day.fields) return day;
+  if (day.chips && day.slots) {
+    var leftover = (day.chips || []).filter(function (chip) {
+      return !(chip && chip.fields && chip.fields.removed && chip.fields.removed.v === '1');
+    });
+    if (leftover.length && leftover.every(function (chip) {
+      return !(chip.fields && chip.fields.text && String(chip.fields.text.v || '').trim());
+    })) {
+      leftover.forEach(function (chip) {
+        chip.fields = chip.fields || {};
+        chip.fields.removed = { v: '1', t: Date.now() };
+      });
+    }
+    (day.slots || []).forEach(function (slot) {
+      if (!slot.hearts) slot.hearts = [];
+      if (!slot.tags) slot.tags = [];
+    });
+    var leftover = (day.slots || []).filter(function (slot) {
+      return !(slot.fields && slot.fields.removed && slot.fields.removed.v === '1');
+    });
+    if (leftover.length === 1 && isBlankActivity(leftover[0])) {
+      leftover[0].fields = leftover[0].fields || {};
+      leftover[0].fields.removed = { v: '1', t: Date.now() };
+    }
+    return foldTone(day);
+  }
+  var out = { id: day.id, created: day.created, fields: {}, chips: day.chips || [], slots: day.slots || [] };
+  ['name', 'highlights', 'tone', 'tip', 'removed'].forEach(function (k) {
+    if (day.fields[k]) out.fields[k] = day.fields[k];
+  });
+  for (var c = 0; c < 3; c++) {
+    var chip = day.fields['chip' + c];
+    if (chip && chip.v) out.chips.push({ id: day.id + '-c' + c, created: (day.created || 0) + c, fields: { text: chip } });
+  }
+  for (var i = 0; i < 8; i++) {
+    var time = day.fields['s' + i + 'time'];
+    var title = day.fields['s' + i + 'title'];
+    var detail = day.fields['s' + i + 'detail'];
+    if (!(time || title || detail)) continue;
+    if (!((time && time.v) || (title && title.v) || (detail && detail.v))) continue;
+    out.slots.push({
+      id: day.id + '-s' + i,
+      created: (day.created || 0) + i,
+      fields: { time: time || cell(''), title: title || cell(''), detail: detail || cell('') },
+      hearts: [],
+      tags: []
+    });
+  }
+  return foldTone(out);
+}
+
+/* ─── Editing ───────────────────────────────────────────── */
+
+function fieldText(el) {
+  return (el.textContent || '').replace(/\u00a0/g, ' ').trim();
+}
+
+function paint(el, value) {
+  if (!el || el === document.activeElement) return;
+  if (fieldText(el) === (value || '')) return;
+  el.textContent = value || '';
+}
+
+function bindEditable(el, read, write) {
+  el.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && el.getAttribute('data-multiline') !== '1') {
+      e.preventDefault();
+      el.blur();
+    }
+  });
+  el.addEventListener('paste', function (e) {
+    e.preventDefault();
+    var text = (e.clipboardData || window.clipboardData).getData('text/plain');
+    document.execCommand('insertText', false, text);
+  });
+  el.addEventListener('input', function () {
+    write(fieldText(el));
+    onEdit();
+  });
+  if (read) paint(el, read());
+}
+
+/* ─── Rendering ─────────────────────────────────────────── */
+
+function showScreen(id) {
+  var next = document.getElementById('screen-' + id) || document.getElementById(id);
+  if (!next) next = document.getElementById('screen-home');
+  document.querySelectorAll('.screen').forEach(function (el) {
+    var on = el === next;
+    el.classList.toggle('active', on);
+    el.toggleAttribute('hidden', !on);
+  });
+  window.scrollTo(0, 0);
+  document.getElementById('nav-home').classList.toggle('active', next.id === 'screen-home');
+  document.getElementById('nav-hearts').classList.toggle('active', next.id === 'screen-hearts');
+  document.getElementById('nav-docs').classList.toggle('active', next.id === 'screen-docs');
+  document.getElementById('nav-weather').classList.toggle('active', next.id === 'screen-weather');
+  document.getElementById('nav-tasks').classList.toggle('active', next.id === 'screen-tasks');
+  if (next.id === 'screen-hearts') renderHearts();
+  if (next.id === 'screen-docs') renderDocs();
+  if (next.id === 'screen-weather') renderWeather();
+  if (next.id === 'screen-tasks') renderTasks();
+  markMenu(next.id);
+  closeMenu();
+  rememberScreen(next.id);
+}
+
+/* ─── Menu ──────────────────────────────────────────────── */
+
+/* Pages that may be added later: the menu only lists the ones whose screen
+   is really in the page, so it keeps working whichever land first. */
+var MENU_PAGES = [
+  { id: 'weather', label: 'Weather' },
+  { id: 'tasks', label: 'Tasks' }
+];
+
+function menuItemFor(screenId) {
+  return document.querySelector('#menu-panel [data-screen="' + screenId + '"]');
+}
+
+/* A page pill left in the header would wrap the bar, so it moves in here. */
+function foldPillsIntoMenu() {
+  document.querySelectorAll('.nav-links .nav-pill').forEach(function (pill) {
+    if (pill.id === 'nav-menu') return;
+    var target = (pill.getAttribute('onclick') || '').match(/showScreen\('([^']+)'\)/);
+    if (!target) return;
+    var page = target[1];
+    var label = pill.textContent.trim();
+    pill.remove();
+    if (menuItemFor('screen-' + page)) return;
+    addMenuItem(page, label, pill.id);
+  });
+}
+
+function addMenuItem(page, label, id) {
+  var item = document.createElement('button');
+  item.type = 'button';
+  item.className = 'menu-item';
+  item.id = id || 'nav-' + page;
+  item.setAttribute('data-screen', 'screen-' + page);
+  item.textContent = label;
+  item.onclick = function () { showScreen(page); };
+  document.getElementById('menu-extra').appendChild(item);
+}
+
+function refreshMenu() {
+  if (!document.getElementById('menu-panel')) return;
+  foldPillsIntoMenu();
+  MENU_PAGES.forEach(function (page) {
+    if (!document.getElementById('screen-' + page.id)) return;
+    if (menuItemFor('screen-' + page.id)) return;
+    addMenuItem(page.id, page.label);
+  });
+  document.querySelectorAll('#menu-panel [data-screen]').forEach(function (item) {
+    item.toggleAttribute('hidden', !document.getElementById(item.getAttribute('data-screen')));
+  });
+}
+
+function markMenu(screenId) {
+  refreshMenu();
+  document.querySelectorAll('#menu-panel [data-screen]').forEach(function (item) {
+    item.classList.toggle('active', item.getAttribute('data-screen') === screenId);
+  });
+  var button = document.getElementById('nav-menu');
+  if (button) button.classList.toggle('active', screenId !== 'screen-home');
+}
+
+function toggleMenu(open) {
+  var menu = document.getElementById('app-menu');
+  var button = document.getElementById('nav-menu');
+  if (!menu || !button) return;
+  var show = open === undefined ? menu.hasAttribute('hidden') : open;
+  if (show) refreshMenu();
+  menu.toggleAttribute('hidden', !show);
+  button.setAttribute('aria-expanded', show ? 'true' : 'false');
+  if (show) {
+    var first = menu.querySelector('.menu-item:not([hidden])');
+    if (first) first.focus();
+  }
+}
+
+function closeMenu() { toggleMenu(false); }
+
+function wireMenu() {
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') closeMenu();
+  });
+  refreshMenu();
+}
+
+/* The open page lives in the link, so a refresh comes back to it. */
+function rememberScreen(screenId) {
+  var url = new URL(location.href);
+  url.hash = screenId === 'screen-home' ? '' : '#' + screenId.replace(/^screen-/, '');
+  history.replaceState(null, '', url);
+}
+
+function restoreScreen() {
+  var id = location.hash.replace(/^#/, '');
+  if (!id) return;
+  var target = document.getElementById('screen-' + id);
+  if (!target) return; // the day may still be on its way from the other browser
+  if (target.classList.contains('active')) return;
+  showScreen(id);
+}
+
+function paintCover() {
+  COVER_FIELDS.forEach(function (key) {
+    paint(document.querySelector('[data-field="' + key + '"]'), get(plan, key));
+  });
+  document.title = (get(plan, 'title') || 'Lauterbrunnen') + ' — Travel Plan';
+}
+
+function trashButton(label, className) {
+  return '<button class="' + (className || 'icon-btn') + ' trash-btn" type="button" title="' + label + '" aria-label="' + label + '">' +
+    '<svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<polyline points="3 6 5 6 21 6"></polyline>' +
+      '<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>' +
+      '<line x1="10" y1="11" x2="10" y2="17"></line>' +
+      '<line x1="14" y1="11" x2="14" y2="17"></line>' +
+    '</svg>' +
+  '</button>';
+}
+
+function chevron(path) {
+  return '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" ' +
+    'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="' + path + '"></path>' +
+  '</svg>';
+}
+
+function editIcon() {
+  return '<svg class="edit-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" ' +
+    'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M12 20h9"></path>' +
+    '<path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"></path>' +
+  '</svg>';
+}
+
+function buildCard(day) {
+  var card = document.createElement('div');
+  card.className = 'card card-lift day-card';
+  card.setAttribute('data-day', day.id);
+  card.innerHTML =
+    '<div class="day-card-body">' +
+      '<div class="day-card-head">' +
+        '<h3 data-display="name" data-ph="Day name"></h3>' +
+        '<div class="day-card-tags" aria-label="Day tags"></div>' +
+      '</div>' +
+      '<p data-display="highlights" data-ph="Highlights of the day"></p>' +
+    '</div>' +
+    trashButton('Remove this day');
+  card.querySelector('.icon-btn').onclick = function (e) {
+    e.stopPropagation();
+    removeDay(day);
+  };
+  card.addEventListener('click', function (e) {
+    if (e.target.closest('button')) return;
+    showScreen('day-' + day.id);
+  });
+  return card;
+}
+
+function buildScreen(day) {
+  var screen = document.createElement('div');
+  screen.id = 'screen-day-' + day.id;
+  screen.className = 'screen';
+  screen.setAttribute('data-day', day.id);
+  screen.hidden = true;
+  screen.innerHTML =
+    '<button class="back-link" type="button">← Main</button>' +
+    '<div class="hero-day fade-in">' +
+      '<div class="day-title-row">' +
+        '<h2 contenteditable="true" data-key="name" data-ph="Day name"></h2>' +
+        '<div class="chips day-tags"><button class="chip-add" type="button">+ tag</button></div>' +
+      '</div>' +
+      '<p class="day-highlights" contenteditable="true" data-key="highlights" data-multiline="1" data-ph="Highlights of the day"></p>' +
+    '</div>' +
+    '<div class="day-gallery" aria-label="Day image gallery"></div>' +
+    '<div class="timeline"></div>' +
+    '<div class="add-options">' +
+      '<button class="add-day add-card" type="button">+ Add a card</button>' +
+      '<button class="add-day paste-day" type="button">Paste full day</button>' +
+    '</div>' +
+    '<div class="full-day-import" hidden>' +
+      '<h3>Paste a full day</h3>' +
+      '<p>Paste anything: one activity per line, a blank line between activities with details, or a single paragraph that gets split by sentence. You can also drop a text file here.</p>' +
+      '<textarea class="full-day-text" placeholder="09:00 — Train to the valley&#10;Morning walk to Staubbach Falls&#10;Evening: Dinner in town"></textarea>' +
+      '<div class="import-actions">' +
+        '<button class="btn btn-primary import-day" type="button">Create cards</button>' +
+        '<button class="btn btn-outline cancel-import" type="button">Cancel</button>' +
+      '</div>' +
+    '</div>';
+
+  screen.querySelector('.back-link').onclick = function () { showScreen('home'); };
+  screen.querySelector('.chip-add').onclick = function () { addChip(day); };
+  screen.querySelector('.add-card').onclick = function () { addSlot(day); };
+  screen.querySelector('.paste-day').onclick = function () { openFullDayImport(screen); };
+  screen.querySelector('.cancel-import').onclick = function () { closeFullDayImport(screen); };
+  screen.querySelector('.import-day').onclick = function () { importFullDay(day, screen); };
+  wireFullDayDrop(screen);
+  wireFields(screen, day, 'data-key', function (key) { paintDayField(day, key); });
+  return screen;
+}
+
+function buildSlot(day, slot) {
+  var el = document.createElement('div');
+  el.className = 'card slot';
+  el.setAttribute('data-slot', slot.id);
+  el.innerHTML =
+    '<div class="slot-image" hidden>' +
+      '<img alt="Activity">' +
+      '<div class="image-actions">' +
+        '<button class="icon-btn image-edit" type="button" title="Replace photo" aria-label="Replace photo">' +
+          editIcon() +
+        '</button>' +
+        trashButton('Remove photo', 'icon-btn image-remove') +
+      '</div>' +
+    '</div>' +
+    '<div class="slot-meta">' +
+      '<label class="image-picker">＋ Add photo<input type="file" accept="image/*"></label>' +
+      '<button class="image-link" type="button" title="Use an image link" aria-label="Use an image link">🔗</button>' +
+      '<div class="chips slot-tags"><button class="chip-add slot-tag-add" type="button">+ tag</button></div>' +
+      '<div class="slot-tools">' +
+        '<button class="move-btn move-up" type="button" title="Move up" aria-label="Move this card up">' +
+          chevron('M6 14.5L12 8.5L18 14.5') +
+        '</button>' +
+        '<button class="move-btn move-down" type="button" title="Move down" aria-label="Move this card down">' +
+          chevron('M6 9.5L12 15.5L18 9.5') +
+        '</button>' +
+        '<button class="heart-btn" type="button" title="Add to favorites" aria-label="Add to favorites">♡</button>' +
+        trashButton('Remove this card') +
+      '</div>' +
+    '</div>' +
+    '<span hidden data-skey="order"></span>' +
+    '<h3 contenteditable="true" data-skey="title" data-ph="What you\'re doing"></h3>' +
+    '<p contenteditable="true" data-skey="detail" data-multiline="1" data-ph="Details, how to get there, how long it takes."></p>' +
+    '<div class="slot-address">' +
+      '<span class="slot-address-text" contenteditable="true" data-skey="address" data-ph="📍 Address, or paste a Google Maps link"></span>' +
+      '<a class="slot-maps" target="_blank" rel="noopener noreferrer" hidden>Maps</a>' +
+    '</div>';
+  wireSlotAddress(day, slot, el);
+  wireFields(el, slot, 'data-skey', function (key) {
+    if (key === 'address') paintSlotAddress(el, slot);
+  });
+  wireSlotMoves(el, day, slot);
+  el.querySelector('.slot-tag-add').onclick = function () { addSlotTag(day, slot); };
+  el.querySelector('.image-link').onclick = function () {
+    var value = prompt('Paste an image link (http or https)', get(slot, 'photoUrl'));
+    if (value !== null) setSlotPhotoUrl(day, slot, value);
+  };
+  el.querySelector('.heart-btn').onclick = function () { toggleSlotHeart(day, slot); };
+  el.querySelector('.slot-tools .trash-btn').onclick = function () {
+    if (confirmRemove('card')) removeItem(day, slot);
+  };
+  el.querySelector('.slot-image img').onclick = function (event) {
+    openLightbox([{ src: event.target.src, alt: get(slot, 'title') || 'Activity' }], 0);
+  };
+  el.querySelector('.slot-image img').onerror = function () {
+    var wrap = el.querySelector('.slot-image');
+    wrap.hidden = true;
+  };
+  el.querySelector('.image-edit').onclick = function () {
+    el.querySelector('.image-picker input').click();
+  };
+  el.querySelector('.image-remove').onclick = function () {
+    if (!confirmRemove('image')) return;
+    set(slot, 'image', '');
+    set(slot, 'photoUrl', '');
+    renderDay(day);
+    onEdit();
+  };
+  el.querySelector('input[type="file"]').onchange = function (event) {
+    var input = event.target;
+    var file = input.files && input.files[0];
+    if (!file) return;
+    processImageFile(file, function (dataUrl) {
+      input.value = '';
+      storeMedia(dataUrl).then(function (ref) {
+        set(slot, 'image', ref);
+        set(slot, 'photoUrl', '');
+        renderDay(day);
+        onEdit();
+      }).catch(function () {
+        toast('That photo could not be saved. Check your signal and try again.');
+      });
+    });
+  };
+  return el;
+}
+
+function setSlotPhotoUrl(day, slot, raw) {
+  var url = String(raw || '').trim();
+  if (url && !isRemoteImageUrl(url)) {
+    toast('Paste a full image link starting with http:// or https://');
+    return;
+  }
+  set(slot, 'photoUrl', url);
+  set(slot, 'image', '');
+  renderDay(day);
+  onEdit();
+}
+
+/* A pasted Google Maps link is kept behind the pin, and whatever the
+   share sheet said the place was called stays on the card. Anything
+   else pastes as the plain text it is. */
+function wireSlotAddress(day, slot, el) {
+  var field = el.querySelector('.slot-address-text');
+  field.addEventListener('paste', function (event) {
+    var text = ((event.clipboardData || window.clipboardData) || { getData: function () { return ''; } }).getData('text/plain');
+    var split = splitMapsPaste(text);
+    if (!split.mapsUrl) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    set(slot, 'maps', split.mapsUrl);
+    set(slot, 'address', split.address || get(slot, 'address'));
+    field.textContent = get(slot, 'address');
+    paintSlotAddress(el, slot);
+    onEdit();
+  });
+}
+
+function buildChip(day, chip) {
+  var shell = document.createElement('span');
+  shell.className = 'chip-shell';
+  shell.setAttribute('data-chip', chip.id);
+  shell.innerHTML =
+    '<span class="chip" contenteditable="true" data-ckey="text" data-ph="Tag"></span>' +
+    trashButton('Remove tag', 'chip-remove');
+  wireFields(shell, chip, 'data-ckey', function () { paintDayCard(day); });
+  shell.querySelector('.chip-remove').onclick = function () {
+    if (confirmRemove('tag')) removeItem(day, chip);
+  };
+  return shell;
+}
+
+function buildSlotTag(day, slot, tag) {
+  var shell = document.createElement('span');
+  shell.className = 'chip-shell';
+  shell.setAttribute('data-slot-tag', tag.id);
+  shell.innerHTML =
+    '<span class="chip" contenteditable="true" data-tkey="text" data-ph="Tag"></span>' +
+    trashButton('Remove tag', 'chip-remove');
+  wireFields(shell, tag, 'data-tkey');
+  shell.querySelector('.chip-remove').onclick = function () {
+    if (confirmRemove('tag')) removeItem(day, tag);
+  };
+  return shell;
+}
+
+function fieldEls(root, attr) {
+  return root.hasAttribute(attr) ? [root] : Array.prototype.slice.call(root.querySelectorAll('[' + attr + ']'));
+}
+
+function wireFields(root, owner, attr, mirror) {
+  fieldEls(root, attr).forEach(function (el) {
+    if (!el.isContentEditable) return;
+    var key = el.getAttribute(attr);
+    bindEditable(el, function () { return get(owner, key); }, function (value) {
+      set(owner, key, value);
+      if (mirror) mirror(key);
+    });
+  });
+}
+
+function paintOwner(root, owner, attr) {
+  if (!root) return;
+  fieldEls(root, attr).forEach(function (el) {
+    paint(el, get(owner, el.getAttribute(attr)));
+  });
+}
+
+/* A day name shows on both its card and its page. */
+function paintDayField(day, key) {
+  document.querySelectorAll(
+    '[data-day="' + day.id + '"] [data-key="' + key + '"], ' +
+    '[data-day="' + day.id + '"] [data-display="' + key + '"]'
+  ).forEach(function (el) {
+    paint(el, get(day, key));
+  });
+}
+
+function paintDayCard(day) {
+  var card = document.querySelector('.day-card[data-day="' + day.id + '"]');
+  if (!card) return;
+  card.querySelectorAll('[data-display]').forEach(function (el) {
+    paint(el, get(day, el.getAttribute('data-display')));
+  });
+  var tags = card.querySelector('.day-card-tags');
+  tags.innerHTML = '';
+  dayTagTexts(day).forEach(function (text) {
+    var tag = document.createElement('span');
+    tag.className = 'chip';
+    tag.textContent = text;
+    tags.appendChild(tag);
+  });
+}
+
+/* Reconcile a list of items against its DOM container, reusing
+   nodes so a remote update never yanks the caret out of a field. */
+function syncList(container, items, build, paintItem, idAttr, before) {
+  var seen = {};
+  items.forEach(function (item, i) {
+    seen[item.id] = 1;
+    var el = container.querySelector('[' + idAttr + '="' + item.id + '"]');
+    if (!el) {
+      el = build(item);
+      before ? container.insertBefore(el, before) : container.appendChild(el);
+    }
+    var at = container.children[i];
+    if (at !== el && !el.contains(document.activeElement)) container.insertBefore(el, at);
+    paintItem(el, item);
+  });
+  container.querySelectorAll('[' + idAttr + ']').forEach(function (el) {
+    if (!seen[el.getAttribute(idAttr)]) el.remove();
+  });
+}
+
+function paintSlotImage(el, slot) {
+  var value = get(slot, 'photoUrl') || get(slot, 'image');
+  var wrap = el.querySelector('.slot-image');
+  var image = wrap.querySelector('img');
+  wrap.hidden = !value;
+  resolveMedia(value, function (src) {
+    if (!src) return;
+    if (image.getAttribute('src') !== src) {
+      image.src = src;
+      wrap.hidden = false;
+      return;
+    }
+    wrap.hidden = image.complete && !image.naturalWidth;
+  });
+  el.querySelector('.image-picker').hidden = !!value;
+}
+
+/* No address and no link means nothing to open, so the pin goes away
+   rather than sitting there dead. */
+function paintSlotAddress(el, slot) {
+  var link = el.querySelector('.slot-maps');
+  var href = mapsHref(get(slot, 'address'), get(slot, 'maps'));
+  link.hidden = !href;
+  if (href) link.setAttribute('href', href);
+  else link.removeAttribute('href');
+  link.textContent = get(slot, 'maps') ? '📍 Maps' : '📍 Find';
+  link.title = get(slot, 'maps') ? 'Open this place in Google Maps' : 'Search Google Maps for this address';
+}
+
+function paintSlotHearts(el, slot) {
+  if (!me) me = loadUser();
+  var button = el.querySelector('.heart-btn');
+  button.classList.toggle('is-on', !!(me && hasHeart(slot, me.id)));
+  button.textContent = button.classList.contains('is-on') ? '♥' : '♡';
+}
+
+function orderedLiveSlots(day) {
+  return orderedSlots(live(day.slots));
+}
+
+/* Reordering is a tap on an arrow, not a drag: a finger sliding a tall
+   card kept losing hold of it. */
+function wireSlotMoves(el, day, slot) {
+  wireMove(el.querySelector('.move-up'), day, slot, -1);
+  wireMove(el.querySelector('.move-down'), day, slot, 1);
+}
+
+/* The card is put in its new place by a re-render, which leaves alone any
+   card holding the focus. So whatever is focused — the button itself, or a
+   half-typed title on the card being moved — lets go first, and the button
+   takes the focus back once the move is done. Typing is saved as it happens,
+   so letting go costs nothing. */
+function wireMove(button, day, slot, direction) {
+  var className = direction < 0 ? 'move-up' : 'move-down';
+  button.onclick = function () {
+    var hadFocus = document.activeElement === button;
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    moveSlot(day, slot, direction);
+    if (!hadFocus) return;
+    var again = document.querySelector('[data-slot="' + slot.id + '"] .' + className);
+    if (again && !again.disabled) again.focus();
+  };
+}
+
+/* Up and down mean earlier and later in the day, whichever way the words
+   on the card happen to run. The ends of the list have nowhere to go. */
+function paintSlotMoves(el, index, total) {
+  el.querySelector('.move-up').disabled = index === 0;
+  el.querySelector('.move-down').disabled = index === total - 1;
+}
+
+function commitSlotOrder(day, ids) {
+  var slots = orderedLiveSlots(day);
+  if (ids.join('|') === slots.map(function (slot) { return slot.id; }).join('|')) return;
+  var values = orderValues(ids);
+  slots.forEach(function (slot) {
+    if (values[slot.id] && get(slot, 'order') !== values[slot.id]) set(slot, 'order', values[slot.id]);
+  });
+  renderDay(day);
+  onEdit();
+}
+
+function openFullDayImport(screen) {
+  var panel = screen.querySelector('.full-day-import');
+  panel.hidden = false;
+  var textarea = panel.querySelector('.full-day-text');
+  setTimeout(function () { textarea.focus(); }, 0);
+}
+
+function closeFullDayImport(screen) {
+  screen.querySelector('.full-day-import').hidden = true;
+  screen.querySelector('.full-day-text').value = '';
+}
+
+function wireFullDayDrop(screen) {
+  var textarea = screen.querySelector('.full-day-text');
+  textarea.addEventListener('dragover', function (event) {
+    event.preventDefault();
+    textarea.classList.add('is-drop-target');
+  });
+  textarea.addEventListener('dragleave', function () {
+    textarea.classList.remove('is-drop-target');
+  });
+  textarea.addEventListener('drop', function (event) {
+    event.preventDefault();
+    textarea.classList.remove('is-drop-target');
+    var file = event.dataTransfer.files && event.dataTransfer.files[0];
+    if (file && typeof file.text === 'function') {
+      file.text().then(function (text) { textarea.value = text; });
+      return;
+    }
+    var text = event.dataTransfer.getData('text/plain');
+    if (text) textarea.value = text;
+  });
+}
+
+function importFullDay(day, screen) {
+  var textarea = screen.querySelector('.full-day-text');
+  var activities = parseFullDay(textarea.value);
+  if (!activities.length) {
+    toast('Paste at least one activity first.');
+    textarea.focus();
+    return;
+  }
+
+  var existing = orderedLiveSlots(day);
+  if (existing.length === 1 && isBlankActivity(existing[0])) {
+    set(existing[0], 'removed', '1');
+    existing = [];
+  }
+
+  activities.forEach(function (activity, index) {
+    var slot = newSlot();
+    set(slot, 'time', activity.time);
+    set(slot, 'title', activity.title);
+    set(slot, 'detail', activity.detail);
+    set(slot, 'address', activity.address || '');
+    set(slot, 'order', String((existing.length + index + 1) * 10));
+    day.slots.push(slot);
+  });
+  closeFullDayImport(screen);
+  renderDay(day);
+  onEdit();
+  toast(activities.length + (activities.length === 1 ? ' card created.' : ' cards created.'));
+}
+
+function moveSlot(day, slot, direction) {
+  var ids = orderedLiveSlots(day).map(function (item) { return item.id; });
+  commitSlotOrder(day, moveSlotIds(ids, slot.id, direction));
+}
+
+function loadUser() {
+  try {
+    var saved = JSON.parse(localStorage.getItem(LS_USER) || 'null');
+    if (saved && saved.id && saved.name) return saved;
+  } catch (e) {}
+  return null;
+}
+
+function persistUser(user) {
+  me = user;
+  try { localStorage.setItem(LS_USER, JSON.stringify(user)); } catch (e) {}
+  return user;
+}
+
+function askNameIfNeeded() {
+  me = me || loadUser();
+  var gate = document.getElementById('name-gate');
+  if (!needsName(me, !!planKey)) {
+    gate.hidden = true;
+    return false;
+  }
+  gate.hidden = false;
+  var input = document.getElementById('name-input');
+  input.value = (me && me.name) || '';
+  setTimeout(function () { input.focus(); }, 50);
+  return true;
+}
+
+function submitName(event) {
+  if (event) event.preventDefault();
+  var user = saveUser(me || loadUser(), document.getElementById('name-input').value, function () { return uid('u'); });
+  if (!user) {
+    document.getElementById('name-input').focus();
+    return;
+  }
+  persistUser(user);
+  document.getElementById('name-gate').hidden = true;
+}
+
+function ensureUser() {
+  me = me || loadUser();
+  if (me && me.name) return me;
+  askNameIfNeeded();
+  return me && me.name ? me : null;
+}
+
+function toggleSlotHeart(day, slot) {
+  if (!ensureUser()) return;
+  toggleHeart(slot, me);
+  renderDay(day);
+  renderHearts();
+  onEdit();
+}
+
+function renderHearts() {
+  var filters = document.getElementById('heart-filters');
+  var list = document.getElementById('heart-list');
+  if (!filters || !list) return;
+  var users = heartUsers(plan);
+  var options = [{ id: '', name: 'All' }].concat(users);
+  if (heartFilter && !users.some(function (user) { return user.id === heartFilter; })) heartFilter = '';
+  filters.innerHTML = '';
+  options.forEach(function (user) {
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'heart-filter' + (heartFilter === user.id ? ' is-on' : '');
+    button.textContent = user.name;
+    button.onclick = function () {
+      heartFilter = user.id;
+      renderHearts();
+    };
+    filters.appendChild(button);
+  });
+  var items = heartList(plan, heartFilter || undefined);
+  list.innerHTML = '';
+  if (!items.length) {
+    var empty = document.createElement('p');
+    empty.className = 'heart-empty';
+    empty.textContent = 'No favorites yet. Open a day and tap ♡ on an activity.';
+    list.appendChild(empty);
+    return;
+  }
+  items.forEach(function (item) {
+    var card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'card heart-item';
+    card.innerHTML =
+      '<h3></h3>' +
+      '<p class="muted"></p>';
+    card.querySelector('h3').textContent = item.title;
+    card.querySelector('.muted').textContent =
+      (item.time ? item.time + ' · ' : '') + item.dayName + ' · ' + item.hearts.map(function (heart) { return heart.name; }).join(', ');
+    card.onclick = function () { showScreen('day-' + item.dayId); };
+    list.appendChild(card);
+  });
+}
+
+function buildDoc(doc) {
+  var el = document.createElement('div');
+  el.className = 'card doc-card';
+  el.setAttribute('data-doc', doc.id);
+  var preview = docKind(doc) === 'image'
+    ? '<img class="doc-preview" alt="" role="button" tabindex="0">'
+    : '<a class="doc-file" href="#" download></a>';
+  el.innerHTML =
+    trashButton('Remove this document') +
+    preview +
+    '<h3 contenteditable="true" data-dkey="name" data-ph="File name"></h3>' +
+    '<p contenteditable="true" data-dkey="description" data-multiline="1" data-ph="What this is, and when you need it."></p>';
+  wireFields(el, doc, 'data-dkey');
+  var image = el.querySelector('.doc-preview');
+  if (image) {
+    var show = function () {
+      openLightbox([{ src: image.src, alt: get(doc, 'name') || 'Document' }], 0);
+    };
+    image.onclick = show;
+    image.onkeydown = function (event) {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      show();
+    };
+  }
+  el.querySelector('.trash-btn').onclick = function () {
+    if (!confirmRemove('doc')) return;
+    set(doc, 'removed', '1');
+    renderDocs();
+    onEdit();
+  };
+  return el;
+}
+
+function paintDoc(el, doc) {
+  paintOwner(el, doc, 'data-dkey');
+  var value = get(doc, 'data');
+  var name = get(doc, 'name') || 'File';
+  if (docKind(doc) === 'image') {
+    var image = el.querySelector('.doc-preview');
+    if (image) {
+      image.alt = name;
+      resolveMedia(value, function (src) { image.src = src; });
+    }
+    return;
+  }
+  var link = el.querySelector('.doc-file');
+  if (!link) return;
+  link.download = name;
+  link.textContent = name;
+  resolveMedia(value, function (src) { link.href = src || '#'; });
+}
+
+function renderDocs() {
+  var list = document.getElementById('docs-list');
+  if (!list) return;
+  if (!plan.docs) plan.docs = [];
+  var items = live(plan.docs);
+  var empty = list.querySelector('.doc-empty');
+  if (!items.length) {
+    list.querySelectorAll('[data-doc]').forEach(function (el) { el.remove(); });
+    if (!empty) {
+      empty = document.createElement('p');
+      empty.className = 'doc-empty';
+      empty.textContent = 'No documents yet. Add a photo or a file you both need.';
+      list.appendChild(empty);
+    }
+    return;
+  }
+  if (empty) empty.remove();
+  syncList(list, items, function (doc) { return buildDoc(doc); }, paintDoc, 'data-doc');
+}
+
+function addDocFile(file, kindHint) {
+  if (!file) return;
+  var asImage = kindHint === 'image' || (file.type && file.type.indexOf('image/') === 0);
+  if (!asImage && tooLarge(file.size * 1.37)) {   // base64 makes a file a third bigger
+    toast('That file is too large to share here (max 650 KB).');
+    return;
+  }
+  var doc = newDoc(function () { return uid('f'); });
+  set(doc, 'name', file.name || (asImage ? 'Photo' : 'File'));
+  set(doc, 'kind', asImage ? 'image' : 'file');
+  set(doc, 'mime', file.type || '');
+
+  function finish(dataUrl) {
+    if (tooLarge(String(dataUrl || '').length)) {
+      toast('That file is too large to share here (max 650 KB).');
+      return;
+    }
+    storeMedia(dataUrl).then(function (ref) {
+      set(doc, 'data', ref);
+      if (!plan.docs) plan.docs = [];
+      plan.docs.push(doc);
+      renderDocs();
+      onEdit();
+    }).catch(function () {
+      toast('That file could not be saved. Check your signal and try again.');
+    });
+  }
+
+  if (asImage) {
+    processImageFile(file, finish);
+    return;
+  }
+  var reader = new FileReader();
+  reader.onerror = function () { toast('That file could not be read.'); };
+  reader.onload = function () { finish(reader.result); };
+  reader.readAsDataURL(file);
+}
+
+var WEATHER_LS = 'weather-forecast-cache';
+var weatherPlace = DEFAULT_PLACE;
+var weatherFetch = null;
+
+function weatherToday() {
+  return new Date().toLocaleDateString('en-CA', { timeZone: 'Europe/Zurich' });
+}
+
+function weatherRequest() {
+  var today = weatherToday();
+  var parsed = parseTripDates(get(plan, 'kicker'), today);
+  if (!parsed) {
+    var fallback = fallbackRange(today);
+    return {
+      start: fallback.start,
+      end: fallback.end,
+      note: 'Add dates on the cover to match the trip.',
+      fetch: true
+    };
+  }
+  var clipped = clipToForecast(parsed.start, parsed.end, today, FORECAST_DAYS);
+  if (!clipped.available) {
+    return {
+      start: parsed.start,
+      end: parsed.end,
+      fetch: false,
+      note: clipped.reason === 'past'
+        ? 'Those trip dates are already past, so there is no upcoming forecast.'
+        : 'Forecast not available yet — Open-Meteo only covers about 16 days from today.'
+    };
+  }
+  var note = 'Daily forecast for ' + weatherPlace.name + '.';
+  if (clipped.start !== parsed.start || clipped.end !== parsed.end) {
+    note = 'Only days inside the next 16 days have a forecast.';
+  }
+  return { start: clipped.start, end: clipped.end, note: note, fetch: true };
+}
+
+function paintWeatherCards(days, note) {
+  var list = document.getElementById('weather-list');
+  var noteEl = document.getElementById('weather-note');
+  if (noteEl) noteEl.textContent = note || '';
+  if (!list) return;
+  list.innerHTML = '';
+  (days || []).forEach(function (day) {
+    var card = document.createElement('div');
+    card.className = 'card weather-card';
+    var precip = day.precip == null ? '' : ' · ' + day.precip + '% rain';
+    card.innerHTML =
+      '<div class="weather-emoji" aria-hidden="true">' + day.emoji + '</div>' +
+      '<div><h3>' + formatDayLabel(day.date) + '</h3>' +
+      '<p>' + day.label + ' · ' + day.high + '° / ' + day.low + '°C' + precip + '</p></div>';
+    list.appendChild(card);
+  });
+}
+
+function readStoredWeather() {
+  try {
+    return JSON.parse(localStorage.getItem(WEATHER_LS) || 'null');
+  } catch (e) {
+    return null;
+  }
+}
+
+function writeStoredWeather(payload) {
+  try { localStorage.setItem(WEATHER_LS, JSON.stringify(payload)); } catch (e) {}
+}
+
+function cacheMatches(cache, req) {
+  return cache &&
+    cache.latitude === weatherPlace.latitude &&
+    cache.longitude === weatherPlace.longitude &&
+    cache.start === req.start &&
+    cache.end === req.end &&
+    cache.daily;
+}
+
+function fetchJson(url) {
+  var ctrl = new AbortController();
+  var timer = setTimeout(function () { ctrl.abort(); }, 12000);
+  return fetch(url, { signal: ctrl.signal }).then(function (res) {
+    if (!res.ok) throw new Error('bad status');
+    return res.json();
+  }).finally(function () { clearTimeout(timer); });
+}
+
+function renderWeather() {
+  var input = document.getElementById('weather-place');
+  if (input && !input.dataset.ready) {
+    input.value = weatherPlace.name;
+    input.dataset.ready = '1';
+  }
+  var req = weatherRequest();
+  var cache = readWeatherCache(readStoredWeather(), Date.now());
+  if (cacheMatches(cache, req)) {
+    paintWeatherCards(daysFromDaily(cache.daily), req.note);
+    return;
+  }
+  if (!req.fetch) {
+    paintWeatherCards([], req.note);
+    return;
+  }
+  paintWeatherCards([], 'Loading forecast…');
+  var token = {};
+  weatherFetch = token;
+  fetchJson(buildOpenMeteoUrl({
+    latitude: weatherPlace.latitude,
+    longitude: weatherPlace.longitude,
+    start: req.start,
+    end: req.end
+  })).then(function (data) {
+    if (weatherFetch !== token) return;
+    var daily = data && data.daily;
+    if (!daily || !daily.time || !daily.time.length) {
+      paintWeatherCards([], 'Couldn\'t load the forecast.');
+      toast('Couldn\'t load the forecast.');
+      return;
+    }
+    writeStoredWeather({
+      t: Date.now(),
+      daily: daily,
+      latitude: weatherPlace.latitude,
+      longitude: weatherPlace.longitude,
+      start: req.start,
+      end: req.end,
+      name: weatherPlace.name
+    });
+    paintWeatherCards(daysFromDaily(daily), req.note);
+  }).catch(function () {
+    if (weatherFetch !== token) return;
+    var stale = readStoredWeather();
+    if (cacheMatches(stale, req)) {
+      paintWeatherCards(daysFromDaily(stale.daily), req.note);
+      toast('Couldn\'t load the forecast.');
+      return;
+    }
+    paintWeatherCards([], 'Couldn\'t load the forecast.');
+    toast('Couldn\'t load the forecast.');
+  });
+}
+
+function applyWeatherPlace() {
+  var input = document.getElementById('weather-place');
+  var name = input ? input.value.trim() : '';
+  if (!name) {
+    weatherPlace = DEFAULT_PLACE;
+    if (input) input.value = weatherPlace.name;
+    renderWeather();
+    return;
+  }
+  fetchJson(buildGeocodeUrl(name)).then(function (data) {
+    var hit = data && data.results && data.results[0];
+    if (!hit) {
+      toast('Couldn\'t find that place.');
+      return;
+    }
+    weatherPlace = {
+      name: hit.name + (hit.admin1 ? ', ' + hit.admin1 : ''),
+      latitude: hit.latitude,
+      longitude: hit.longitude
+    };
+    if (input) input.value = weatherPlace.name;
+    renderWeather();
+  }).catch(function () {
+    toast('Couldn\'t find that place.');
+  });
+}
+
+var lightboxShots = [];
+var lightboxAt = 0;
+var lightboxZoom = { scale: 1, x: 0, y: 0 };
+var MAX_ZOOM = 4;
+
+/* Zoom and pan live on the image transform: the page meta sets user-scalable=no,
+   so native pinch never reaches a fixed overlay. */
+function zoomLightbox(scale, x, y) {
+  var image = document.getElementById('lightbox-image');
+  var next = Math.min(MAX_ZOOM, Math.max(1, scale || 1));
+  var wide = (image ? image.clientWidth : 0) * (next - 1) / 2;
+  var tall = (image ? image.clientHeight : 0) * (next - 1) / 2;
+  var toX = x === undefined ? lightboxZoom.x : x;
+  var toY = y === undefined ? lightboxZoom.y : y;
+  lightboxZoom.scale = next;
+  lightboxZoom.x = Math.min(wide, Math.max(-wide, toX));
+  lightboxZoom.y = Math.min(tall, Math.max(-tall, toY));
+  if (image) {
+    image.style.transform =
+      'translate(' + lightboxZoom.x + 'px, ' + lightboxZoom.y + 'px) scale(' + next + ')';
+    image.classList.toggle('zoomed', next > 1);
+  }
+  return lightboxZoom;
+}
+
+function openLightbox(shots, index) {
+  lightboxShots = shots;
+  lightboxAt = index;
+  document.getElementById('lightbox').classList.add('open');
+  paintLightbox();
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightbox-image').src = '';
+  zoomLightbox(1, 0, 0);
+}
+
+function stepLightbox(by) {
+  if (lightboxShots.length < 2) return;
+  lightboxAt = (lightboxAt + by + lightboxShots.length) % lightboxShots.length;
+  paintLightbox();
+}
+
+function paintLightbox() {
+  var shot = lightboxShots[lightboxAt];
+  if (!shot) return closeLightbox();
+  var image = document.getElementById('lightbox-image');
+  image.src = shot.src;
+  image.alt = shot.alt;
+  zoomLightbox(1, 0, 0);
+  var many = lightboxShots.length > 1;
+  document.querySelector('.lightbox-prev').hidden = !many;
+  document.querySelector('.lightbox-next').hidden = !many;
+}
+
+function wireLightbox() {
+  var box = document.getElementById('lightbox');
+  var image = document.getElementById('lightbox-image');
+  box.onclick = function (event) { if (event.target === box) closeLightbox(); };
+  box.querySelector('.lightbox-close').onclick = closeLightbox;
+  box.querySelector('.lightbox-prev').onclick = function () { stepLightbox(-1); };
+  box.querySelector('.lightbox-next').onclick = function () { stepLightbox(1); };
+  document.addEventListener('keydown', function (event) {
+    if (!box.classList.contains('open')) return;
+    if (event.key === 'Escape') closeLightbox();
+    if (event.key === 'ArrowLeft') stepLightbox(-1);
+    if (event.key === 'ArrowRight') stepLightbox(1);
+  });
+
+  var spread = 0;     // finger gap when the pinch began
+  var began = 1;      // zoom when the pinch began
+  var drag = null;    // last one finger position
+  var tapped = 0;     // time of the previous tap
+  var gap = function (touches) {
+    var dx = touches[0].clientX - touches[1].clientX;
+    var dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+  var toggle = function () { zoomLightbox(lightboxZoom.scale > 1 ? 1 : 2.5); };
+
+  image.addEventListener('touchstart', function (event) {
+    if (event.touches.length === 2) {
+      spread = gap(event.touches);
+      began = lightboxZoom.scale;
+      drag = null;
+      return;
+    }
+    spread = 0;
+    drag = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+  }, { passive: true });
+
+  image.addEventListener('touchmove', function (event) {
+    if (event.touches.length === 2 && spread) {
+      event.preventDefault();
+      zoomLightbox(began * (gap(event.touches) / spread));
+      return;
+    }
+    if (event.touches.length !== 1 || !drag || lightboxZoom.scale === 1) return;
+    event.preventDefault();
+    var touch = event.touches[0];
+    zoomLightbox(
+      lightboxZoom.scale,
+      lightboxZoom.x + touch.clientX - drag.x,
+      lightboxZoom.y + touch.clientY - drag.y
+    );
+    drag = { x: touch.clientX, y: touch.clientY };
+  }, { passive: false });
+
+  image.addEventListener('touchend', function (event) {
+    if (event.touches.length) return;
+    var pinched = spread;
+    spread = 0;
+    drag = null;
+    if (pinched) return;
+    var now = Date.now();
+    if (now - tapped < 320) {
+      event.preventDefault();
+      tapped = 0;
+      toggle();
+      return;
+    }
+    tapped = now;
+  }, { passive: false });
+
+  image.ondblclick = toggle;
+
+  image.addEventListener('wheel', function (event) {
+    event.preventDefault();
+    zoomLightbox(lightboxZoom.scale * (event.deltaY > 0 ? 0.9 : 1.12));
+  }, { passive: false });
+}
+
+function paintGallery(screen, day) {
+  var gallery = screen.querySelector('.day-gallery');
+  gallery.innerHTML = '';
+  var shots = [];
+  orderedLiveSlots(day).forEach(function (slot) {
+    var value = get(slot, 'photoUrl') || get(slot, 'image');
+    if (!value) return;
+    shots.push({ src: '', value: value, alt: get(slot, 'title') || 'Day activity' });
+  });
+  shots.forEach(function (shot, index) {
+    var thumb = document.createElement('button');
+    thumb.type = 'button';
+    thumb.className = 'gallery-thumb';
+    thumb.title = shot.alt;
+    thumb.setAttribute('aria-label', 'Open photo: ' + shot.alt);
+    thumb.onclick = function () { openLightbox(shots, index); };
+    var image = document.createElement('img');
+    image.alt = shot.alt;
+    image.onerror = function () { thumb.remove(); };
+    resolveMedia(shot.value, function (src) {
+      shot.src = src;
+      image.src = src;
+    });
+    thumb.appendChild(image);
+    gallery.appendChild(thumb);
+  });
+}
+
+function renderDay(day) {
+  paintDayCard(day);
+  var screen = document.getElementById('screen-day-' + day.id);
+  if (!screen) return;
+  var dir = dayDirection(day);
+  paintOwner(screen, day, 'data-key');
+  syncList(
+    screen.querySelector('.day-tags'),
+    live(day.chips),
+    function (chip) { return buildChip(day, chip); },
+    function (el, chip) { paintOwner(el, chip, 'data-ckey'); },
+    'data-chip',
+    screen.querySelector('.chip-add')
+  );
+  var slots = orderedLiveSlots(day);
+  syncList(
+    screen.querySelector('.timeline'),
+    slots,
+    function (slot) { return buildSlot(day, slot); },
+    function (el, slot) {
+      el.setAttribute('dir', dir);
+      paintOwner(el, slot, 'data-skey');
+      paintSlotMoves(el, slots.indexOf(slot), slots.length);
+      syncList(
+        el.querySelector('.slot-tags'),
+        live(slot.tags),
+        function (tag) { return buildSlotTag(day, slot, tag); },
+        function (tagEl, tag) { paintOwner(tagEl, tag, 'data-tkey'); },
+        'data-slot-tag',
+        el.querySelector('.slot-tag-add')
+      );
+      el.querySelector('.slot-tag-add').hidden = !canAddActivityTag(slot.tags);
+      paintSlotImage(el, slot);
+      paintSlotAddress(el, slot);
+      paintSlotHearts(el, slot);
+    },
+    'data-slot'
+  );
+  paintGallery(screen, day);
+}
+
+function buildTask(task) {
+  var el = document.createElement('div');
+  el.className = 'card task-row';
+  el.setAttribute('data-task', task.id);
+  el.innerHTML =
+    '<input type="checkbox" aria-label="Mark this task done">' +
+    '<span contenteditable="true" data-kkey="text" data-ph="A thing to do"></span>' +
+    trashButton('Remove this task');
+  wireFields(el, task, 'data-kkey', function () {
+    paintTask(el, task);
+  });
+  el.querySelector('input[type="checkbox"]').onchange = function () {
+    set(task, 'done', this.checked ? '1' : '');
+    paintTask(el, task);
+    onEdit();
+  };
+  el.querySelector('.trash-btn').onclick = function () {
+    if (!confirmRemove('task')) return;
+    set(task, 'removed', '1');
+    renderTasks();
+    onEdit();
+  };
+  return el;
+}
+
+function paintTask(el, task) {
+  paintOwner(el, task, 'data-kkey');
+  var done = get(task, 'done') === '1';
+  el.classList.toggle('is-done', done);
+  var box = el.querySelector('input[type="checkbox"]');
+  if (box && box !== document.activeElement) box.checked = done;
+  var text = get(task, 'text');
+  if (typeof hasHebrew === 'function' && hasHebrew(text)) el.setAttribute('dir', 'rtl');
+  else el.removeAttribute('dir');
+}
+
+function renderTasks() {
+  var list = document.getElementById('tasks-list');
+  if (!list) return;
+  if (!plan.tasks) plan.tasks = [];
+  var items = live(plan.tasks);
+  var empty = list.querySelector('.task-empty');
+  if (!items.length) {
+    list.querySelectorAll('[data-task]').forEach(function (el) { el.remove(); });
+    if (!empty) {
+      empty = document.createElement('p');
+      empty.className = 'task-empty';
+      empty.textContent = 'No tasks yet.';
+      list.appendChild(empty);
+    }
+    return;
+  }
+  if (empty) empty.remove();
+  syncList(list, items, function (task) { return buildTask(task); }, paintTask, 'data-task');
+}
+
+function addTask() {
+  if (!plan.tasks) plan.tasks = [];
+  var task = newTask(function () { return uid('k'); });
+  plan.tasks.push(task);
+  renderTasks();
+  onEdit();
+  var field = document.querySelector('#tasks-list [data-task="' + task.id + '"] [data-kkey="text"]');
+  if (field) field.focus();
+}
+
+function render() {
+  var cards = document.getElementById('day-cards');
+  var container = document.querySelector('.container');
+  var days = live(plan.days);
+  var shown = {};
+
+  days.forEach(function (day, i) {
+    shown[day.id] = 1;
+    var card = cards.querySelector('[data-day="' + day.id + '"]');
+    if (!card) {
+      card = buildCard(day);
+      cards.appendChild(card);
+    }
+    var screen = document.getElementById('screen-day-' + day.id);
+    if (!screen) {
+      screen = buildScreen(day);
+      container.appendChild(screen);
+    }
+    if (cards.children[i] !== card && !card.contains(document.activeElement)) cards.insertBefore(card, cards.children[i]);
+    renderDay(day);
+  });
+
+  cards.querySelectorAll('[data-day]').forEach(function (el) {
+    if (!shown[el.getAttribute('data-day')]) el.remove();
+  });
+  document.querySelectorAll('.screen[data-day]').forEach(function (el) {
+    if (!shown[el.getAttribute('data-day')]) {
+      if (el.classList.contains('active')) showScreen('home');
+      el.remove();
+    }
+  });
+  if (!document.querySelector('.screen.active')) showScreen('home');
+  var open = document.querySelector('.screen.active');
+  markMenu(open ? open.id : 'screen-home');
+  if (document.getElementById('screen-hearts').classList.contains('active')) renderHearts();
+  if (document.getElementById('screen-docs').classList.contains('active')) renderDocs();
+  if (document.getElementById('screen-weather') && document.getElementById('screen-weather').classList.contains('active')) renderWeather();
+  if (document.getElementById('screen-tasks') && document.getElementById('screen-tasks').classList.contains('active')) renderTasks();
+}
+
+function addDay() {
+  var days = live(plan.days);
+  var last = days[days.length - 1];
+  if (last && isBlankDay(last)) {
+    showScreen('day-' + last.id);
+    return;
+  }
+  plan.days.push(newDay());
+  render();
+  onEdit();
+  var added = live(plan.days);
+  showScreen('day-' + added[added.length - 1].id);
+}
+
+function confirmRemove(label) {
+  return confirm('Are you sure you want to remove this ' + label + '?');
+}
+
+function removeDay(day) {
+  if (!confirmRemove('day')) return;
+  set(day, 'removed', '1');
+  render();
+  onEdit();
+}
+
+function addSlot(day) {
+  var slot = newSlot();
+  set(slot, 'order', String((orderedLiveSlots(day).length + 1) * 10));
+  day.slots.push(slot);
+  renderDay(day);
+  onEdit();
+  var title = document.querySelector('#screen-day-' + day.id + ' [data-slot="' + slot.id + '"] [data-skey="title"]');
+  if (title) title.focus();
+}
+
+function addChip(day) {
+  day.chips.push(newChip());
+  renderDay(day);
+  onEdit();
+  var added = document.querySelector('#screen-day-' + day.id + ' .day-tags [data-chip]:last-of-type .chip');
+  if (added) added.focus();
+}
+
+function addSlotTag(day, slot) {
+  if (!slot.tags) slot.tags = [];
+  if (!canAddActivityTag(slot.tags)) return;
+  var tag = newChip();
+  slot.tags.push(tag);
+  renderDay(day);
+  onEdit();
+  var added = document.querySelector(
+    '#screen-day-' + day.id + ' [data-slot="' + slot.id + '"] [data-slot-tag="' + tag.id + '"] .chip'
+  );
+  if (added) added.focus();
+}
+
+function removeItem(day, item) {
+  set(item, 'removed', '1');
+  renderDay(day);
+  onEdit();
+}
+
+/* Shared plans store images as compact data URLs. Resizing here keeps
+   localStorage and live sync usable even when a phone photo is large. */
+function processImageFile(file, done) {
+  if (!file.type || file.type.indexOf('image/') !== 0) {
+    toast('Please choose an image file.');
+    return;
+  }
+  var reader = new FileReader();
+  reader.onerror = function () { toast('That image could not be read.'); };
+  reader.onload = function () {
+    var source = new Image();
+    source.onerror = function () { toast('That image could not be opened.'); };
+    source.onload = function () {
+      var max = 720;
+      var scale = Math.min(1, max / Math.max(source.width, source.height));
+      var canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(source.width * scale));
+      canvas.height = Math.max(1, Math.round(source.height * scale));
+      var context = canvas.getContext('2d');
+      context.fillStyle = '#ffffff';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(source, 0, 0, canvas.width, canvas.height);
+      done(canvas.toDataURL('image/jpeg', 0.62));
+    };
+    source.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ─── Photos ────────────────────────────────────────────── */
+
+/* Fetched photos are kept for the session, and on this device between
+   visits, so a day page doesn't re-download its pictures every time. */
+var mediaCache = {};
+var mediaWaiting = {};
+
+function cachedMedia(key) {
+  if (mediaCache[key]) return mediaCache[key];
+  try {
+    var saved = localStorage.getItem(cacheKey(key));
+    if (saved) mediaCache[key] = saved;
+    return saved || '';
+  } catch (e) { return ''; }
+}
+
+function rememberMedia(key, dataUrl) {
+  mediaCache[key] = dataUrl;
+  try { localStorage.setItem(cacheKey(key), dataUrl); } catch (e) {}
+}
+
+/* Put one photo at its own address and hand back the short reference. */
+async function storeMedia(dataUrl) {
+  if (tooBigToSync(dataUrl)) throw new Error('photo too large');
+  var key = newMediaKey();
+  var res = await fetch(STORE + key, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: dataUrl
+  });
+  if (!res.ok) throw new Error('photo upload failed');
+  rememberMedia(key, dataUrl);
+  return asRef(key);
+}
+
+/* Hands back a src straight away when it can, and calls again once a
+   photo has arrived from its own address. */
+function resolveMedia(value, done) {
+  if (!value) return done('');
+  if (isRemoteImageUrl(value)) return done(String(value).trim());
+  if (isInline(value)) return done(value);
+  var key = refKey(value);
+  if (!key) return done('');
+  var hit = cachedMedia(key);
+  if (hit) return done(hit);
+  if (!mediaWaiting[key]) {
+    mediaWaiting[key] = fetch(STORE + key + '?t=' + Date.now(), { cache: 'no-store' })
+      .then(function (res) { return res.ok ? res.text() : ''; })
+      .then(function (text) {
+        if (text) rememberMedia(key, text);
+        return text;
+      })
+      .catch(function () { return ''; });
+  }
+  done('');
+  mediaWaiting[key].then(function (text) { if (text) done(text); });
+}
+
+/* A photo picked before this change is still inside the plan; move it out
+   so the plan shrinks back to text and starts saving again. */
+async function liftPhotosOut() {
+  var pending = inlineMedia(plan);
+  if (!pending.length) return;
+  var moved = 0;
+  for (var i = 0; i < pending.length; i++) {
+    try {
+      var ref = await storeMedia(pending[i].item.fields[pending[i].key].v);
+      set(pending[i].item, pending[i].key, ref);
+      moved++;
+    } catch (e) { /* leave it inline and try again next visit */ }
+  }
+  if (!moved) return;
+  render();
+  onEdit();
+}
+
+/* ─── Sync ──────────────────────────────────────────────── */
+
+/* The header shows company, not plumbing: who else has the page open.
+   It only falls back to a connection word when something is wrong. */
+function status(state, text) {
+  connection = { state: state || '', text: text || '' };
+  paintPresence();
+}
+
+function paintPresence() {
+  var pill = document.getElementById('sync-pill');
+  if (!pill) return;
+  pill.hidden = !planKey;
+  var broken = connection.state === 'offline';
+  pill.className = 'sync-pill' + (broken ? ' is-offline' : (activePeers(peers, Date.now(), PRESENCE_TTL).length ? ' is-together' : ''));
+  document.getElementById('sync-text').textContent = broken
+    ? connection.text
+    : presenceLabel(peers, Date.now(), PRESENCE_TTL);
+}
+
+function toast(msg) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(function () { el.classList.remove('show'); }, 3000);
+}
+
+function saveLocal() {
+  if (!planKey) return;
+  try { localStorage.setItem(planCacheKey(planKey), JSON.stringify(plan)); } catch (e) {
+    toast('This plan is getting too large for this phone. Try a smaller file.');
+  }
+}
+
+function onEdit() {
+  dirty = true;
+  saveLocal();
+  if (planKey) status('saving', 'Saving…');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(sync, 400);
+}
+
+function shareUrl() {
+  var u = new URL(location.href);
+  if (planKey) u.searchParams.set('p', planKey);
+  return u.toString();
+}
+
+/* ─── Which plan am I looking at ─────────────────────────────
+   One empty page that looks exactly like the trip is how a plan
+   seems to vanish, so the plan is always named in the header and
+   a new one is only ever made when someone asks for one.
+───────────────────────────────────────────────────────────── */
+
+function planCacheKey(key) { return LS_PLAN + '-' + key; }
+
+function knownPlanKeys() {
+  try {
+    var list = JSON.parse(localStorage.getItem(LS_KNOWN) || '[]');
+    if (!Array.isArray(list)) return [];
+    return list.map(cleanPlanKey).filter(Boolean);
+  } catch (e) { return []; }
+}
+
+function rememberPlanKey(key) {
+  var list = knownPlanKeys().filter(function (other) { return other !== key; });
+  list.unshift(key);
+  try { localStorage.setItem(LS_KNOWN, JSON.stringify(list.slice(0, 8))); } catch (e) {}
+}
+
+/* Each plan keeps its own copy on this device, so opening the other
+   person's link can never push this device's plan into theirs. */
+function loadLocalPlan(key) {
+  var raw = '';
+  try {
+    raw = localStorage.getItem(planCacheKey(key)) || '';
+    // A plan saved before plans were kept apart belongs to the key this device had.
+    if (!raw && localStorage.getItem(LS_ID) === key) {
+      raw = localStorage.getItem(LS_PLAN) || '';
+      if (raw) localStorage.removeItem(LS_PLAN);
+    }
+  } catch (e) {}
+  if (!raw) return null;
+  try {
+    var saved = JSON.parse(raw);
+    if (!saved || !Array.isArray(saved.days) || !saved.days.length || !saved.days[0].fields) return null;
+    saved.days = saved.days.map(upgradeDay);
+    if (!Array.isArray(saved.docs)) saved.docs = [];
+    return saved;
+  } catch (e) { return null; }
+}
+
+function setPlanKey(key) {
+  if (stream) {
+    try { stream.close(); } catch (e) {}
+    stream = null;
+  }
+  peers = {};
+  presenceStamps = {};
+  planKey = key;
+  try { localStorage.setItem(LS_ID, key); } catch (e) {}
+  rememberPlanKey(key);
+  var u = new URL(location.href);
+  u.searchParams.set('p', key);
+  history.replaceState(null, '', u);
+  paintPlanCode();
+  paintPresence();
+  listen();
+}
+
+function paintPlanCode() {
+  var button = document.getElementById('plan-code');
+  if (!button) return;
+  var code = planCode(planKey);
+  button.hidden = !code;
+  button.textContent = 'Plan ' + code;
+  button.title = 'You are looking at plan ' + code + '. Tap to copy its link or open another plan.';
+}
+
+function showPlanGate(firstVisit) {
+  var gate = document.getElementById('plan-gate');
+  if (!gate) return;
+  var code = planCode(planKey);
+  gate.querySelector('#plan-gate-title').textContent = code ? 'Plan ' + code : 'Open your travel plan';
+  gate.querySelector('#plan-gate-help').textContent = code
+    ? 'This is the plan this device is showing. To see another one, paste its link below.'
+    : 'Nothing is saved on this device yet. Paste the plan link from your other phone or computer to see the same trip.';
+  var current = gate.querySelector('#plan-current');
+  current.hidden = !code;
+  current.textContent = code ? 'Showing plan ' + code : '';
+
+  var others = knownPlanKeys().filter(function (key) { return key !== planKey; });
+  var list = gate.querySelector('#plan-known');
+  list.innerHTML = '';
+  list.hidden = !others.length;
+  others.forEach(function (key) {
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = 'Plan ' + planCode(key);
+    button.onclick = function () { switchToPlan(key); };
+    list.appendChild(button);
+  });
+
+  gate.querySelector('#copy-plan-link').hidden = !code;
+  gate.querySelector('#close-plan-gate').hidden = !code;
+  // A fresh plan is offered only when there is nothing else to open,
+  // so nobody makes one by mistake and loses sight of the real trip.
+  gate.querySelector('#new-plan-choice').hidden = !firstVisit;
+  gate.querySelector('#new-plan-button').hidden = !firstVisit;
+  gate.querySelector('#plan-link-input').value = '';
+  gate.hidden = false;
+  setTimeout(function () { gate.querySelector('#plan-link-input').focus(); }, 0);
+}
+
+function hidePlanGate() {
+  var gate = document.getElementById('plan-gate');
+  if (gate && planKey) gate.hidden = true;
+}
+
+function openEnteredPlan(event) {
+  event.preventDefault();
+  var input = document.getElementById('plan-link-input');
+  var key = planKeyFromInput(input.value, location.href);
+  if (!key) {
+    toast('That does not look like a plan link. Use Copy link on the other device and paste the whole thing.');
+    input.focus();
+    return;
+  }
+  if (key === planKey) {
+    hidePlanGate();
+    return;
+  }
+  switchToPlan(key);
+}
+
+function startNewPlan() {
+  switchToPlan(makePlanKey());
+  toast('This is a brand new empty plan. Use Copy link to open it on your other device.');
+}
+
+async function switchToPlan(key) {
+  var cached = loadLocalPlan(key);
+  plan = cached || newPlan();
+  document.getElementById('plan-gate').hidden = true;
+  paintCover();
+  render();
+  status('saving', 'Connecting…');
+  setPlanKey(key);
+  dirty = !!cached;
+  await sync();
+  liftPhotosOut();
+  askNameIfNeeded();
+  startPresence();
+  sharePresence();
+}
+
+async function readRemote() {
+  var res = await fetch(STORE + planKey + '?t=' + Date.now(), { cache: 'no-store' });
+  if (!res.ok) throw new Error('read failed');
+  var text = await res.text();
+  if (!text) return null; // nothing saved under this link yet
+  try { return JSON.parse(text); } catch (e) { return null; }
+}
+
+async function writeRemote() {
+  var body = JSON.stringify(plan);
+  if (tooBigToSync(body)) {
+    var big = new Error('plan too large');
+    big.tooLarge = true;
+    throw big;
+  }
+  var res = await fetch(STORE + planKey, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: body
+  });
+  if (!res.ok) {
+    var failed = new Error('write failed');
+    if (res.status === 413) failed.tooLarge = true;
+    throw failed;
+  }
+  // Nudge the other browser so it reloads immediately instead of waiting for the next poll.
+  signal('edit');
+}
+
+/* One tiny message carries both "I'm here" and "I just saved". */
+function signal(kind, keepalive) {
+  if (!planKey) return;
+  var body = JSON.stringify({ c: CLIENT, n: (me && me.name) || '', k: kind });
+  fetch(SIGNAL + topic() + '?cache=no', { method: 'POST', body: body, keepalive: !!keepalive }).catch(function () {});
+}
+
+function sendPing() {
+  signal('ping');
+}
+
+/* One pass: read what the other person wrote, merge it into ours,
+   and write back when we have local edits. */
+async function sync() {
+  if (!planKey || syncing) return;
+  syncing = true;
+  try {
+    var merged = mergePlans(plan, await readRemote());
+    if (JSON.stringify(merged) !== JSON.stringify(plan)) {
+      plan = merged;
+      paintCover();
+      render();
+      saveLocal();
+    }
+    if (dirty) {
+      dirty = false;
+      await writeRemote();
+    }
+    status('', 'Live');
+    warnedTooLarge = false;
+  } catch (e) {
+    dirty = true;
+    if (e && e.tooLarge) {
+      status('offline', 'Not saved');
+      // Say it once per episode, not on every retry.
+      if (!warnedTooLarge) {
+        warnedTooLarge = true;
+        toast(sizeWarning(JSON.stringify(plan)));
+      }
+    } else {
+      status('offline', 'Offline');
+    }
+  } finally {
+    syncing = false;
+  }
+}
+
+function topic() {
+  return 'lbplan-' + planKey;
+}
+
+/* Server-sent events: the other person's save arrives as a push,
+   so their words land here in about a second. */
+function listen() {
+  if (!planKey || stream) return;
+  stream = new EventSource(SIGNAL + topic() + '/sse');
+  stream.onopen = function () {
+    status('', '');
+    sendPing();
+  };
+  stream.onmessage = function (e) {
+    var msg = null;
+    try { msg = JSON.parse(e.data); } catch (err) { return; }
+    if (!msg || msg.event !== 'message') return;
+
+    var note = null;
+    try { note = JSON.parse(msg.message); } catch (err) { note = null; }
+    if (!note || !note.c || note.c === CLIENT) return;
+
+    if (note.k === 'bye') dropPeer(peers, note.c);
+    else notePeer(peers, { client: note.c, name: note.n }, Date.now());
+    paintPresence();
+
+    if (note.k === 'edit') sync();
+    else if (note.k === 'hello') sendPing();
+  };
+  // The push service is blocked on some networks. The plan and the names
+  // still travel through the store, so this is not worth worrying her about.
+  stream.onerror = function () { if (connection.state !== 'offline') status('', ''); };
+}
+
+/* Who is here rides on the same store as the plan. The push service is
+   blocked on some phones and some Wi-Fi, and when it is, the header used to
+   say "Only you" forever even with both of you on the page. */
+function whoKey() { return planKey + '-who'; }
+
+async function sharePresence() {
+  if (!planKey) return;
+  var book = {};
+  try {
+    var res = await fetch(STORE + whoKey() + '?t=' + Date.now(), { cache: 'no-store' });
+    if (res.ok) {
+      var text = await res.text();
+      if (text) book = JSON.parse(text) || {};
+    }
+  } catch (e) { book = {}; }
+
+  notePresenceBook(peers, book, { self: CLIENT, now: Date.now(), ttl: PRESENCE_TTL, stamps: presenceStamps });
+  paintPresence();
+
+  var next = freshBook(book, {
+    self: CLIENT,
+    name: (me && me.name) || 'Someone',
+    now: Date.now(),
+    keep: PRESENCE_KEEP,
+    stamps: presenceStamps
+  });
+  try {
+    await fetch(STORE + whoKey(), {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(next)
+    });
+  } catch (e) {}
+}
+
+function startPresence() {
+  if (presenceTimer) return;
+  signal('hello');
+  sharePresence();
+  presenceTimer = setInterval(function () {
+    sendPing();
+    sharePresence();
+  }, PRESENCE_MS);
+  setInterval(paintPresence, PRESENCE_MS);
+  window.addEventListener('pagehide', function () { signal('bye', true); });
+}
+
+var COPIED_LINK_MESSAGE = 'Link copied. Anyone with it can edit this plan.';
+
+async function copyLink() {
+  closeMenu();
+  var url = shareUrl();
+  try {
+    await navigator.clipboard.writeText(url);
+    toast(COPIED_LINK_MESSAGE);
+    return;
+  } catch (e) {}
+  // Older phone browsers refuse the clipboard API outside a secure page.
+  var field = document.createElement('textarea');
+  field.value = url;
+  field.setAttribute('readonly', '');
+  field.style.position = 'fixed';
+  field.style.opacity = '0';
+  document.body.appendChild(field);
+  field.select();
+  var copied = false;
+  try { copied = document.execCommand('copy'); } catch (e) {}
+  document.body.removeChild(field);
+  toast(copied ? COPIED_LINK_MESSAGE : url);
+}
+
+async function init() {
+  COVER_FIELDS.forEach(function (key) {
+    var el = document.querySelector('[data-field="' + key + '"]');
+    bindEditable(el, function () { return get(plan, key); }, function (value) { set(plan, key, value); });
+  });
+
+  wireLightbox();
+  wireMenu();
+
+  document.getElementById('docs-image-input').onchange = function (event) {
+    var file = event.target.files && event.target.files[0];
+    event.target.value = '';
+    addDocFile(file, 'image');
+  };
+  document.getElementById('docs-file-input').onchange = function (event) {
+    var file = event.target.files && event.target.files[0];
+    event.target.value = '';
+    addDocFile(file, 'file');
+  };
+
+  document.getElementById('weather-place-form').onsubmit = function (event) {
+    event.preventDefault();
+    applyWeatherPlace();
+  };
+
+  var params = new URLSearchParams(location.search);
+  var urlKey = cleanPlanKey(params.get('p'));
+  var storedKey = cleanPlanKey(localStorage.getItem(LS_ID));
+
+  // No link and nothing saved here: say so instead of quietly starting an
+  // empty plan that is impossible to tell apart from a plan that went missing.
+  if (!urlKey && !storedKey) {
+    paintCover();
+    render();
+    showPlanGate(true);
+    setInterval(sync, POLL_MS);
+    window.addEventListener('focus', sync);
+    return;
+  }
+
+  var key = urlKey || storedKey;
+  var cached = loadLocalPlan(key);
+  if (cached) plan = cached;
+
+  paintCover();
+  render();
+  restoreScreen();
+
+  status('saving', 'Connecting…');
+  setPlanKey(key);
+  dirty = !!cached;
+  await sync();
+  restoreScreen();
+  if (urlKey && storedKey && urlKey !== storedKey) {
+    toast('You are now on plan ' + planCode(urlKey) + '. Plan ' + planCode(storedKey) +
+      ' is still saved here — tap the plan code to go back to it.');
+  }
+  liftPhotosOut();
+  askNameIfNeeded();
+  startPresence();
+
+  setInterval(sync, POLL_MS);
+  window.addEventListener('focus', sync);
+}
+
+init();
+</script>
+</body>
+</html>
